@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>MainWindow.qml</file>
+        <file>Prompt.qml</file>
+        <file>AsyncQAnimatedLoader.qml</file>
+        <file>LogView.qml</file>
+        <file>OptionsWindow.qml</file>
+        <file>AcountSettingsView.qml</file>
+        <file>ServerSettingsView.qml</file>
+        <file>DocAjustementPrint.qml</file>
+        <file>CButton.qml</file>
+        <file>Images/ucmu_full.png</file>
+        <file>ImageButton.qml</file>
+        <file>Icons/ic_settings_applications_white_24dp.png</file>
+        <file>PeopleSettingsView.qml</file>
+        <file>PeopleListSettings.qml</file>
+        <file>PeopleListDelegate.qml</file>
+        <file>PeopleEditorSettings.qml</file>
+        <file>InvAdjustmentPrint.qml</file>
+        <file>InvAdjustmentPrintDelegate.qml</file>
+        <file>InventairePrint.qml</file>
+        <file>InventoryPrintDelegate.qml</file>
+        <file>IncRapportDocumentPrint.qml</file>
+        <file>IncRapportDocumentPrintPeopleDelegate.qml</file>
+        <file>IncRapportDocumentPrintServiceDelegate.qml</file>
+        <file>IncInvAdjPrint.qml</file>
+    </qresource>
+</RCC>
