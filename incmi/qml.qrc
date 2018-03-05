@@ -630,5 +630,7 @@
         <file>Components/DateTumblerPicker.qml</file>
         <file>Components/TimeTumblerPicker.qml</file>
         <file>DocumentMedical/InformationEvenement.qml</file>
+        <file>Prompts/BasePrompt.qml</file>
+        <file>Prompts/CancelPrompt.qml</file>
     </qresource>
 </RCC>
