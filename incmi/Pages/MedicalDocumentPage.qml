@@ -4,10 +4,12 @@ import QtQuick.Controls.Material 2.1
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQml 2.2
-import "./DocumentMedical" as MedPages
+import "../DocumentMedical" as MedPages
+import "../Prompts" as Dialogs
+import "../Components" as Comps
 
 Item {
-    // Field properties   
+    // Field properties
 
     //EtatSigne -- First
     property string svep1hre
@@ -228,19 +230,20 @@ Item {
         addMessage(JSON.stringify(obj));
         sendSavedInformation();
     }
-
-
-    ColumnLayout {
+    Item {
         id: mview
-        spacing: 0
         anchors.fill: parent
         SwipeView {
             id: view
             clip: true
-            topPadding: 10
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            Layout.fillHeight: true
-            Layout.fillWidth: true
+            anchors {
+                topMargin: 10
+                top: parent.top
+                left: parent.left
+                right: parent.right
+                bottom: indicator.top
+            }
+
             currentIndex: currentpage
             onCurrentIndexChanged: {
                 currentItem.forceActiveFocus();
@@ -295,176 +298,72 @@ Item {
         }
         PageIndicator {
             id: indicator
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            Layout.fillHeight: false
-            Layout.fillWidth: false
+            width: implicitWidth
+            height: implicitHeight
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                bottom: footer.top
+            }
             count: view.count
             currentIndex: view.currentIndex
         }
-        Pane {
+
+        Comps.ConfirmationPageFooter {
             id: footer
-            width: parent.width
-            height: 70
-            Layout.minimumHeight: 50
-            Layout.fillHeight: true
-            Layout.maximumHeight: 70
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-            Material.background: "#0288D1"
-            Material.elevation: 4
-            GridLayout {
-                anchors.fill: parent
-                CButton {
-                    id: cancelbutton
-                    text: qsTr("Annuler")
-                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                    Layout.maximumWidth: 150
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Material.foreground: colorlt
-                    Material.background: "#006da9"
-                    source: "Icons/ic_highlight_off_white_24dp.png"
-                    onClicked: {
-                        mview.enabled = false;
-                        promptconfirmleave.show();
-                    }
-                }
-                CButton {
-                    text: qsTr("Envoyer")
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    Layout.maximumWidth: 150
-                    Material.foreground: colorlt
-                    Material.background: "#006da9"
-                    source: "Icons/ic_cloud_upload_white_24dp.png"
-                    onClicked: {
-                        mview.enabled = false;
-                        promptconfirmsave.show();
-                    }
-                }
+            anchors {
+                bottom: parent.bottom
+                left: parent.left
+                right: parent.right
             }
+
+            onConfirm: {
+                mview.enabled = false;
+                promptconfirmsave.show();
+            }
+            onCancel: {
+                mview.enabled = false;
+                promptconfirmleave.show();
+            }
+
         }
+
     }
 
-    Prompt {
+    Dialogs.ConfirmPrompt {
         id: promptconfirmsave
         x: parent.width / 14
-        y: parent.height / 4.0
         width: parent.width - 2*x
-        height: parent.height - 2*(parent.height/4.5)
+        height: parent.height / 3
         Material.background: colora
         Material.elevation: 8
-        ColumnLayout {
-            anchors.fill: parent
-            anchors.leftMargin: parent.width/15
-            anchors.rightMargin: parent.width/15
-            anchors.bottomMargin: (parent.height/20) * 3
-            anchors.topMargin: (parent.height/20) * 3
-            spacing: 5
-            Label {
-                text: settings.user == "" ? qsTr("Vous devez configurer votre compte avant tout... \n Merci!"): qsTr(
-                                                "Êtes vous sur de vouloir sauvegarder les changements?\nNom: " +
-                                                JSON.parse(settings.user).firstname + " " + JSON.parse(settings.user).lastname +
-                                                "\nMatricule: " + JSON.parse(settings.user).matricule);
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignLeft
-                Material.foreground: colorlt
-                wrapMode: Text.WordWrap
-                Layout.maximumHeight: 50
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                font.pointSize: 14
-            }
-            RowLayout{
-                spacing: 15
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
-                Layout.maximumHeight: 50
-                Button {
-                    text: settings.user == "" ? qsTr("Ok") : qsTr("Non")
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    Material.foreground: colorlt
-                    Material.background: colorp
-                    onClicked: {
-                        mview.enabled = true;
-                        promptconfirmsave.hide();
-                    }
-                }
-                Button {
-                    text: qsTr("Oui")
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    Material.foreground: colorlt
-                    Material.background: colorp
-                    enabled: settings.user == "" ? false: true;
-                    onClicked: {
-                        save();
-                        winchange(medimain);
-                    }
-                }
-            }
+
+        onCancelDialog: {
+            mview.enabled = true;
+            promptconfirmsave.hide();
+        }
+
+        onConfirmDialog: {
+            save();
+            winchange(medimain);
         }
     }
-    Prompt {
+    Dialogs.CancelPrompt {
         id: promptconfirmleave
         x: parent.width / 14
-        y: parent.height / 4.0
+        visibleY: parent.height / 3
         width: parent.width - 2*x
-        height: parent.height - 2*(parent.height/4.5)
+        height: parent.height / 3
         Material.background: colora
         Material.elevation: 8
-        ColumnLayout {
-            anchors.fill: parent
-            anchors.leftMargin: parent.width/15
-            anchors.rightMargin: parent.width/15
-            anchors.bottomMargin: (parent.height/20) * 3
-            anchors.topMargin: (parent.height/20) * 3
-            spacing: 5
-            Label {
-                text: qsTr("Êtes vous sur de vouloir quitter? Les changements non sauvegarder seronts effacer..")
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignLeft
-                wrapMode: Text.WordWrap
-                Layout.maximumHeight: 50
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                font.pointSize: 14
-                Material.foreground: colorlt
-            }
-            RowLayout{
-                spacing: 15
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
-                Layout.maximumHeight: 50
-                Button {
-                    text: qsTr("Non")
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    Material.foreground: colorlt
-                    Material.background: colorp
-                    onClicked: {
-                        mview.enabled = true;
-                        promptconfirmleave.hide();
-                    }
-                }
-                Button {
-                    text: qsTr("Oui")
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    Material.foreground: colorlt
-                    Material.background: colorp
-                    onClicked: {
-                        winchange(medimain);
-                    }
-                }
-            }
+        onCancelDialog: {
+            mview.enabled = true;
+            promptconfirmleave.hide();
         }
+
+        onConfirmDialog: {
+            winchange(medimain);
+        }
+
     }
 }
 

@@ -4,8 +4,9 @@ import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.1
 
 Item {
-    x: pad / 2
-    width: parent.width - pad
+    property int viewItemMargins: 5
+    width: parent.width - 2*viewItemMargins
+    x: viewItemMargins
     height: type === "docs" ? 100 : 35
     property int xd: 1
     property int pad: 10
@@ -78,64 +79,63 @@ Item {
         anchors.fill: parent
         Item {
             id: leftpanel
-            width: type === "docs" ? lb.implicitWidth + pad : blabel.implicitWidth + pad
+            width: type == "docs" ? (lb.implicitWidth + pad) > (parent.width / 2) ? parent.width /2 : (lb.implicitWidth + pad) : (blabel.implicitWidth + pad) > parent.width * 2 / 3 ? parent.width * 2 / 3 : (blabel.implicitWidth + pad)
             height: parent.height
             Label {
                 id: l1
+                elide: "ElideRight"
                 width: parent.width - pad / 2
                 height: parent.height / 4
                 text: "Date"
                 font.bold: true
-                fontSizeMode: Text.Fit
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                horizontalAlignment: Text.AlignLeft
+                fontSizeMode: Text.HorizontalFit
                 verticalAlignment: Text.AlignVCenter;
             }
 
             Label {
                 id: lb
+                elide: "ElideRight"
                 y: parent.height /4
                 height: parent.height / 4
                 width: parent.width - pad / 2
                 text: "Opération"
                 font.bold: true
-                fontSizeMode: Text.Fit
-                horizontalAlignment: Text.AlignLeft
+                fontSizeMode: Text.HorizontalFit
                 verticalAlignment: Text.AlignVCenter;
             }
 
             Label {
                 id: l2
+                elide: "ElideRight"
                 y: parent.height / 2
                 height: parent.height / 4
                 width: parent.width - pad / 2
                 text: "Ville"
                 font.bold: true
-                fontSizeMode: Text.Fit
-                horizontalAlignment: Text.AlignLeft
+                fontSizeMode: Text.HorizontalFit
                 verticalAlignment: Text.AlignVCenter;
             }
 
             Label {
                 id: l3
+                elide: "ElideRight"
                 y: parent.height * 3 / 4
                 height:  parent.height / 4
                 width: parent.width - pad / 2
                 text: "Nature"
                 font.bold: true
-                fontSizeMode: Text.Fit
-                horizontalAlignment: Text.AlignLeft
+                fontSizeMode: Text.HorizontalFit
                 verticalAlignment: Text.AlignVCenter;
             }
 
             Label {
                 id: blabel
+                elide: "ElideRight"
                 height:  parent.height
                 width: parent.width - pad / 2
                 text: "Changements d'inventaires"
                 font.bold: true
-                fontSizeMode: Text.Fit
-                horizontalAlignment: Text.AlignLeft
+                fontSizeMode: Text.HorizontalFit
                 verticalAlignment: Text.AlignVCenter;
             }
 
@@ -159,10 +159,8 @@ Item {
                 height: parent.height / 4
                 text: type === "docs" ? formatText(dateint) : ""
                 fontSizeMode: Text.HorizontalFit
-                wrapMode: Text.NoWrap
                 leftPadding: pad
                 elide: "ElideRight"
-                horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignVCenter;
 
             }
@@ -171,25 +169,21 @@ Item {
                 width: parent.width
                 height: parent.height / 4
                 fontSizeMode: Text.HorizontalFit
-                wrapMode: Text.NoWrap
                 leftPadding: pad
                 text: type === "docs" ? nomoper : ""
                 y: parent.height / 4
                 elide: "ElideRight"
-                horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignVCenter;
             }
             Label {
                 id: bl3
                 width: parent.width
                 height: parent.height / 4
-                wrapMode: Text.NoWrap
                 leftPadding: pad
                 text: type === "docs" ? ville: ""
                 fontSizeMode: Text.HorizontalFit
                 y: parent.height / 2
                 elide: "ElideRight"
-                horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignVCenter;
             }
 
@@ -197,13 +191,11 @@ Item {
                 id: bl4
                 width: parent.width
                 height: parent.height / 4
-                wrapMode: Text.NoWrap
                 leftPadding: pad
                 elide: "ElideRight"
                 text: type === "docs" ? formatNate(nature) : ""
                 fontSizeMode: Text.HorizontalFit
                 y: parent.height * 3 / 4
-                horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignVCenter;
             }
 
@@ -212,11 +204,9 @@ Item {
                 elide: "ElideRight"
                 width: parent.width
                 height: parent.height
-                wrapMode: Text.NoWrap
                 leftPadding: pad
                 text: type === "docs" ? "" : formatText(date)
                 fontSizeMode: Text.HorizontalFit
-                horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignVCenter;
             }
         }

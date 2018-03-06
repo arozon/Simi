@@ -4,17 +4,13 @@
         <file>IntroForm.qml</file>
         <file>main.qml</file>
         <file>MainForm.qml</file>
-        <file>MedicMain.qml</file>
         <file>MedInvAdjustment.qml</file>
         <file>MedViewInventory.qml</file>
-        <file>MediViewDelegate.qml</file>
-        <file>MediViewHeader.qml</file>
         <file>Prompt.qml</file>
         <file>DebugColorPicker.qml</file>
         <file>MedInvViewDelegate.qml</file>
         <file>MedInvViewHeader.qml</file>
         <file>AdjViewDelegate.qml</file>
-        <file>MedDocRapportPremierSoins.qml</file>
         <file>Images/ucmu_100h.png</file>
         <file>Images/ucmu_250h.png</file>
         <file>Images/ucmu_full.png</file>
@@ -593,9 +589,6 @@
         <file>PeopleListSettings.qml</file>
         <file>PeopleListDelegate.qml</file>
         <file>PeopleEditorSettings.qml</file>
-        <file>IncendieMain.qml</file>
-        <file>IncendieMainDelegate.qml</file>
-        <file>IncendieMainHeader.qml</file>
         <file>IncRapportDocument.qml</file>
         <file>IncRapportFirstPage.qml</file>
         <file>IncRapportSecondPage.qml</file>
@@ -632,5 +625,20 @@
         <file>DocumentMedical/InformationEvenement.qml</file>
         <file>Prompts/BasePrompt.qml</file>
         <file>Prompts/CancelPrompt.qml</file>
+        <file>Prompts/ConfirmPrompt.qml</file>
+        <file>Components/BackPageFooter.qml</file>
+        <file>Components/ImageButton.qml</file>
+        <file>Components/ListPageHeader.qml</file>
+        <file>Components/DocumentTypeFilter.qml</file>
+        <file>Pages/IncendieListPage.qml</file>
+        <file>Delegates/IncendieList.qml</file>
+        <file>Components/BaseSocket.qml</file>
+        <file>Pages/MedicalListPage.qml</file>
+        <file>Prompts/EmptyPrompt.qml</file>
+        <file>Delegates/MedicalList.qml</file>
+        <file>Pages/MedicalDocumentPage.qml</file>
+        <file>Components/ConfirmationPageFooter.qml</file>
+        <file>Pages/MainPageStandard.qml</file>
+        <file>Pages/MainPageSettings.qml</file>
     </qresource>
 </RCC>

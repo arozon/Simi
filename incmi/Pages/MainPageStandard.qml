@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.1
+import "../Components" as Comps
 
 Item {
     width: parent.width
@@ -9,7 +10,6 @@ Item {
     function ready() {
 
     }
-
     ColumnLayout {
         id: mview
         anchors.rightMargin: parent.width / 8
@@ -18,13 +18,12 @@ Item {
         anchors.topMargin: parent.height / 5.5
         anchors.fill: parent
         spacing: 5
-
-        CButton {
+        Comps.ImageButton {
             Material.foreground: colorlt
             Material.background: colordp
             Layout.fillHeight: true
             Layout.fillWidth: true
-            source: "Icons/ic_invert_colors_white_24dp.png"
+            source: "../Icons/ic_invert_colors_white_24dp.png"
             text: "Incendie"
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             onClicked: {
@@ -32,10 +31,10 @@ Item {
             }
         }
 
-        CButton {
-            source: "Icons/ic_content_paste_white_24dp.png"
+        Comps.ImageButton {
             Material.foreground: colorlt
             Material.background: colordp
+            source: "../Icons/ic_content_paste_white_24dp.png"
             text: "Medical"
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -45,10 +44,10 @@ Item {
             }
         }
 
-        CButton {
-            source: "Icons/ic_event_white_24dp.png"
+        Comps.ImageButton {
             Material.foreground: colorlt
             Material.background: colordp
+            source: "../Icons/ic_event_white_24dp.png"
             text: "Événements"
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -58,6 +57,4 @@ Item {
             }
         }
     }
-
-
 }
