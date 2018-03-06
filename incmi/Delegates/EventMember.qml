@@ -13,7 +13,7 @@ Item {
     Component.onCompleted: {
         for (var i = 0; i < currentpeople.length; i++){
             var obj = currentpeople[i];
-            if (obj.filename == filename){
+            if (obj.filename === filename){
                 name.checked = true;
             }
         }
@@ -23,6 +23,7 @@ Item {
         anchors.fill: parent
         border.color: "lightgrey"
         border.width: 1
+        radius: 3
         MouseArea {
             anchors.fill: parent
         }
@@ -35,7 +36,7 @@ Item {
             height: parent.height - 2*pad
             text: firstname + " " + lastname
             onCheckedChanged: {
-                checkChanged(checked,getObject());
+                modifyPeople(checked,getObj());
             }
         }
 
@@ -60,7 +61,7 @@ Item {
         }
     }
 
-    function getObject() {
+    function getObj() {
         var obj = JSON.parse(peoplebase);
         obj.firstname = firstname;
         obj.lastname = lastname;

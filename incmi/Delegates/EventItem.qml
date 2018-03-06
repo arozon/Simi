@@ -1,6 +1,6 @@
-import QtQuick 2.0
+import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.0
+import QtQuick.Controls.Material 2.2
 
 
 Pane {
@@ -22,7 +22,8 @@ Pane {
     MouseArea {
         anchors.fill: parent
         onDoubleClicked: {
-            var obj = JSON.parse(eventitembase);
+            var obj = {};
+            obj.people = [];
             for (var i = 0; i < people.count; i++){
                 obj.people.push(people.get(i));
             }

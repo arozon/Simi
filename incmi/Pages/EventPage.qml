@@ -4,6 +4,8 @@ import QtQuick.Controls.Material 2.1
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtWebSockets 1.1
+import "../Components" as Comps
+import "../EventComponents" as EventPages
 
 Item {
     width: parent == null ? 360:parent.width
@@ -52,18 +54,16 @@ Item {
     }
 
     function doneMembers(){
-        ld.push(cev);
+        changeStackPage(cev);
     }
 
     function dclicked(obj){
-        ld.push(ppl);
+        changeStackPage(ppl);
     }
 
     function ddclicked(obj) {
         if (settings.isadmin) {
             editEvent(obj);
-        }else {
-
         }
     }
 
@@ -104,17 +104,24 @@ Item {
     }
 
     function cancel() {
-        reset();
-        ld.push(prev);
+        tabBar.setCurrentIndex(0);
     }
 
-    function checkChanged(condition, obj) {
+    function changeStackPage(page) {
+        //ld.replace(ld.get(0),page,StackView.PopTransition);
+        //ld.pop(null);
+
+        ld.push(page);
+    }
+
+    function modifyPeople(condition, obj) {
         switch (condition) {
         case true:
             var exists = false;
             for (var b = 0; b < currentpeople.length; b++){
                 var oi = currentpeople[b];
-                if (obj.filename == oi.filename) {
+                console.log(obj.filename);
+                if (obj.filename === oi.filename) {
                     exists = true;
                 }
             }
@@ -125,7 +132,8 @@ Item {
         case false:
             for (var i = currentpeople.length; i > 0; i--){
                 var ot = currentpeople[i-1];
-                if (ot.filename == obj.filename) {
+                console.log(obj.filename);
+                if (ot.filename === obj.filename) {
                     currentpeople.splice(i - 1,1);
                 }
             }
@@ -135,22 +143,22 @@ Item {
 
     Component {
         id: prev
-        PreviousEvent {}
+        EventPages.PreviousEvent {}
     }
 
     Component {
         id: upc
-        UpcomingEvent {}
+        EventPages.UpcomingEvent {}
     }
 
     Component {
         id: cev
-        ConfigureEvent {}
+        EventPages.ConfigureEvent {}
     }
 
     Component {
         id: ppl
-        AddMembersEvent {}
+        EventPages.MembersEvent {}
     }
 
     Component.onCompleted:  {
@@ -206,15 +214,15 @@ Item {
                         switch(tabBar.currentIndex){
                         case 0:
                             reset()
-                            ld.push(prev);
+                            changeStackPage(prev);
                             break;
                         case 1:
                             reset()
-                            ld.push(upc);
+                            changeStackPage(upc);
                             break;
                         case 2:
                             footer.enabled = false;
-                            ld.push(cev);
+                            changeStackPage(cev);
                             break;
                         }
                     }
@@ -242,32 +250,13 @@ Item {
             }
         }
 
-        Pane {
+        Comps.BackPageFooter {
             id: footer
-            width: parent.width
-            height: 70
-            Layout.minimumHeight: 50
+            Layout.minimumHeight: height
             Layout.fillHeight: true
-            Layout.maximumHeight: 70
+            Layout.maximumHeight: height
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-            Material.background: "#0288D1"
-            RowLayout {
-                anchors.fill: parent
-                CButton {
-                    text: qsTr("Retour")
-                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                    Layout.maximumWidth: 150
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Material.foreground: colorlt
-                    Material.background: colordp
-                    source: "Icons/ic_backspace_white_24dp.png"
-                    onClicked: {
-                        winchange(login);
-                    }
-                }
-            }
         }
     }
 

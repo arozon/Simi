@@ -53,7 +53,7 @@ Window {
 
     onActiveChanged: {
         if (!active) {
-            Qt.quit();
+            //Qt.quit();
         }
     }
 
@@ -183,7 +183,7 @@ Window {
 
     Component {
         id:events
-        EventView {}
+        Pages.EventPage {}
     }
 
     Component {

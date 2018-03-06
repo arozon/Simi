@@ -2,13 +2,9 @@ import QtQuick 2.0
 import QtWebSockets 1.1
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
+import "../Components" as Comps
 
-Item {
-    property int checkiheight: 50
-    Material.accent: colora
-    width: parent.width
-    height: parent.height
-    property string defstr;
+EventBase {
     clip: true
 
     function ready () {
@@ -62,33 +58,12 @@ Item {
 
             for (var c = 0; c < sl.length; c++){
                 var tb = sl[c]
-                mod.append(tb);
+                viewModel.append(tb);
             }
         }
     }
 
-    function prevcheckChanged() {
-        mod.clear();
-        setModel(defstr);
-        if (!cmed.checked){
-            for (var b = mod.count; b > 0; b--){
-                var objb = mod.get(b - 1);
-                if (objb.type == "med"){
-                    mod.remove(b-1);
-                }
-            }
-        }
-        if (!cinc.checked){
-            for (var c = mod.count; c > 0; c--){
-                var obj = mod.get(c - 1);
-                if (obj.type == "inc"){
-                    mod.remove(c-1);
-                }
-            }
-        }
-    }
-
-    BaseSocket {
+    Comps.BaseSocket {
         port: sport
         host: shost
         id: upce
@@ -106,54 +81,6 @@ Item {
                 upce.sendTextMessage(JSON.stringify(ms));
                 break;
             }
-        }
-    }
-
-
-    ListView {
-        id: typeview
-        interactive: true
-        width: parent.width
-        height: parent.height - checkiheight
-        clip: true
-        model: ListModel {id: mod}
-        delegate: EventDelegate {}
-        spacing: 3
-        add: Transition { NumberAnimation { properties: "x"; from: width; duration: 300; easing.type: Easing.OutQuad }}
-        onCurrentIndexChanged: {
-            // Change the values of the boxes.
-        }
-    }
-    Rectangle {
-        y: typeview.height
-        height: checkiheight + 1
-        width: parent.width + 2
-        x: -1
-        border.color: "grey"
-        border.width: 1
-        CheckBox {
-            id: cmed
-            height: parent.height
-            width: cmed.implicitWidth + cinc.implicitWidth + 2*pad > parent.width ? (parent.width - 2*pad)/ 2 : implicitWidth
-            x: parent.width - pad - width
-            checked: true
-            text: "Médical"
-            onCheckedChanged: {
-                prevcheckChanged();
-            }
-        }
-
-        CheckBox {
-            id: cinc
-            height: parent.height
-            width: cmed.implicitWidth + cinc.implicitWidth + 2*pad > parent.width ? (parent.width - 2*pad)/ 2 : implicitWidth
-            x: cmed.x - width - 2*pad
-            checked: true
-            text: "Incendie"
-            onCheckedChanged: {
-                prevcheckChanged();
-            }
-
         }
     }
 }

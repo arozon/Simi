@@ -2,6 +2,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
+import "../Components" as Comps
 
 
 Item {
@@ -21,8 +22,8 @@ Item {
         datenv3.currentIndex = year;
         datenv2.currentIndex = month;
         datenv1.currentIndex = day;
-        thour.textField.text = currenthour;
-        tlieu.textField.text = currentlieu;
+        thour.mTextInput.text = currenthour;
+        tlieu.mTextInput.text = currentlieu;
         tdetails.text = currentdetails;
         switch (currenttype) {
         case "inc":
@@ -41,7 +42,7 @@ Item {
     }
 
     function checkSave() {
-        if (thour.textField.text == "" || tdetails.text == "" || tlieu.textField.text == "") {
+        if (thour.textInputText == "" || tdetails.text == "" || tlieu.textInputText == "") {
             cansave = false;
         }else {
             cansave = true;
@@ -49,7 +50,7 @@ Item {
     }
 
     function remove(){
-        var obj = JSON.parse(eventitembase);
+        var obj = {};
         obj.date = currentdate
         obj.hour = thour.textField.text;
         obj.people = currentpeople;
@@ -87,9 +88,6 @@ Item {
         var data = modelData + 1;
         return data.toString().length < 2 ? "0" + data : data;
     }
-
-    width: parent.width
-    height: parent.height
     Item {
         y: pad
         x: pad
@@ -205,33 +203,27 @@ Item {
             }
         }
 
-        CLabeledTextField {
+        Comps.LabeledTextInput {
             id: thour
             height: textboxheight
             width: parent.width
-            spad: pad
             y: dlabel.height + dlabel.y + pad * 5
-            textField.text: ""
-            label.text: "Heure : "
-            labelLength: 50
+            labelText: "Heure : "
             KeyNavigation.tab: tlieu
-            textField.onTextChanged: {
-                currenthour = thour.textField.text;
+            onTextInputTextChanged: {
+                currenthour = textInputText;
                 checkSave();
             }
         }
-        CLabeledTextField {
+        Comps.LabeledTextInput {
             id: tlieu
             height: textboxheight
             width: parent.width
-            spad: pad
-            textField.text: ""
             y: pad + thour.height + thour.y
-            label.text: "Lieu : "
-            labelLength: 50
+            labelText: "Lieu : "
             KeyNavigation.tab: tdetails
-            textField.onTextChanged: {
-                currentlieu = tlieu.textField.text;
+            onTextInputTextChanged: {
+                currentlieu = textInputText;
                 checkSave();
             }
         }

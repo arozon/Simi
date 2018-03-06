@@ -576,13 +576,6 @@
         <file>ViewCreateInventoryItem.qml</file>
         <file>InventoryPrint.qml</file>
         <file>InventoryPrintDelegate.qml</file>
-        <file>EventView.qml</file>
-        <file>PreviousEvent.qml</file>
-        <file>EventDelegate.qml</file>
-        <file>UpcomingEvent.qml</file>
-        <file>ConfigureEvent.qml</file>
-        <file>AddMembersEvent.qml</file>
-        <file>EventMemberListDelegate.qml</file>
         <file>InvAdjustmentPrint.qml</file>
         <file>InvAdjustmentPrintDelegate.qml</file>
         <file>ServerSettingsView.qml</file>
@@ -640,5 +633,13 @@
         <file>Components/ConfirmationPageFooter.qml</file>
         <file>Pages/MainPageStandard.qml</file>
         <file>Pages/MainPageSettings.qml</file>
+        <file>Pages/EventPage.qml</file>
+        <file>EventComponents/PreviousEvent.qml</file>
+        <file>EventComponents/EventBase.qml</file>
+        <file>Delegates/EventItem.qml</file>
+        <file>EventComponents/UpcomingEvent.qml</file>
+        <file>EventComponents/ConfigureEvent.qml</file>
+        <file>EventComponents/MembersEvent.qml</file>
+        <file>Delegates/EventMember.qml</file>
     </qresource>
 </RCC>
