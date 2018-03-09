@@ -2,15 +2,16 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtWebSockets 1.1
+import "../Components" as Comps
+import "../Delegates" as Delegs
+
 Item {
     height: 3300
     width: 2550
     property int headerfont: 24
     property int tleftpad: 15
-    BaseSocket {
+    Comps.BaseSocket {
         id: dsocket
-        host: shost
-        port: sport
         onStatusChanged: {
             switch(status) {
             case WebSocket.Open:
@@ -83,7 +84,7 @@ Item {
                         y: 0
                         height: parent.height
                         fillMode: Image.PreserveAspectFit
-                        source: "Images/ucmu_full.png"
+                        source: "../Images/ucmu_full.png"
                         width: parent.width / 5
                     }
 
@@ -528,7 +529,7 @@ Item {
                             anchors.fill: parent
                             anchors.margins: 15
                             model: ListModel {id: modpeople}
-                            delegate: IncRapportDocumentPrintPeopleDelegate {}
+                            delegate: Delegs.IncendiePrintPeople {}
                             currentIndex: -1
                         }
                     }
@@ -575,7 +576,7 @@ Item {
                             anchors.fill: parent
                             anchors.margins: 15
                             model: ListModel {id: modservice}
-                            delegate: IncRapportDocumentPrintServiceDelegate {}
+                            delegate: Delegs.IncendiePrintService {}
                             currentIndex: -1
                         }
                     }

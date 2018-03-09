@@ -9,8 +9,6 @@ import "../Delegates" as Delegs
 import "../Prompts" as Dialogs
 
 Item {
-    width: parent == null ? 360:parent.width
-    height: parent == null ? 640:parent.height
     property int pad: 5
     property int checkiheight: 50
     property string bmodel

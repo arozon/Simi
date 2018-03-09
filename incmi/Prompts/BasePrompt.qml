@@ -7,7 +7,10 @@ import QtQuick.Controls.Material 2.2
 Pane {
     id: base
     visible: false
-    property int visibleY: parent.height / 4
+    x: parent.width / 14
+    width: parent.width - 2*x
+    height: parent.height / 3
+    property int visibleY: parent.height / 3
     property int hiddenY: parent.height
     property int animationDuration: 300
     property int labelMargin: parent.width / 8

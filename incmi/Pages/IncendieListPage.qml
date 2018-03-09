@@ -8,14 +8,12 @@ import "../Components" as Comps
 import "../Delegates" as Delegs
 
 Item {
-    width: parent == null ? 360:parent.width
-    height: parent == null ? 640:parent.height
     property int pad: 5
     property int checkiheight: 50
     property int viewSpacing: 4
     property int viewMargins: 5
-    property bool check1: false
-    property bool check2: false
+    property bool check1: true
+    property bool check2: true
     property string bmodel
     Material.accent: colora
 
@@ -41,7 +39,7 @@ Item {
     function checkChanged() {
         mod.clear();
         setModel();
-        if (!check1.checked){
+        if (!check1){
             for (var b = mod.count; b > 0; b--){
                 var objb = mod.get(b - 1);
                 if (objb.type == "docs"){
@@ -49,7 +47,7 @@ Item {
                 }
             }
         }
-        if (!check2.checked){
+        if (!check2){
             for (var c = mod.count; c > 0; c--){
                 var obj = mod.get(c - 1);
                 if (obj.type == "inv"){

@@ -331,12 +331,6 @@ Item {
 
     Dialogs.ConfirmPrompt {
         id: promptconfirmsave
-        x: parent.width / 14
-        width: parent.width - 2*x
-        height: parent.height / 3
-        Material.background: colora
-        Material.elevation: 8
-
         onCancelDialog: {
             mview.enabled = true;
             promptconfirmsave.hide();
@@ -349,12 +343,6 @@ Item {
     }
     Dialogs.CancelPrompt {
         id: promptconfirmleave
-        x: parent.width / 14
-        visibleY: parent.height / 3
-        width: parent.width - 2*x
-        height: parent.height / 3
-        Material.background: colora
-        Material.elevation: 8
         onCancelDialog: {
             mview.enabled = true;
             promptconfirmleave.hide();

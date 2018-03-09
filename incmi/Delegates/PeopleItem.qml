@@ -61,7 +61,7 @@ Item {
     }
 
     function getObject() {
-        var obj = JSON.parse(peoplebase);
+        var obj = {};
         obj.firstname = firstname;
         obj.lastname = lastname;
         obj.role = role;

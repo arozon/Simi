@@ -2,6 +2,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtWebSockets 1.1
+import "../Components" as Comps
 Item {
     height: 3300
     width: 2550
@@ -36,11 +37,9 @@ Item {
         }
     }
 
-    BaseSocket {
+    Comps.BaseSocket {
         id: dsocket
         active: false
-        host: shost
-        port: sport
         onStatusChanged: {
             switch(status) {
             case WebSocket.Open:
