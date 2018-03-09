@@ -1,11 +1,10 @@
 import QtQuick 2.9
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.1
+import QtQuick.Controls.Material 2.2
+import "../Components" as Comps
 
 Item {
-    width: parent.width
-    height: parent.height
     function ready() {
 
     }
@@ -19,12 +18,12 @@ Item {
         anchors.fill: parent
         spacing: 5
 
-        CButton {
+        Comps.ImageButton {
             Material.foreground: colorlt
             Material.background: colordp
             Layout.fillHeight: true
             Layout.fillWidth: true
-            source: "Icons/ic_invert_colors_white_24dp.png"
+            source: "../Icons/ic_invert_colors_white_24dp.png"
             text: "Incendie"
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             onClicked: {
@@ -32,8 +31,8 @@ Item {
             }
         }
 
-        CButton {
-            source: "Icons/ic_content_paste_white_24dp.png"
+        Comps.ImageButton {
+            source: "../Icons/ic_content_paste_white_24dp.png"
             Material.foreground: colorlt
             Material.background: colordp
             text: "Medical"
@@ -45,8 +44,8 @@ Item {
             }
         }
 
-        CButton {
-            source: "Icons/ic_event_white_24dp.png"
+        Comps.ImageButton {
+            source: "../Icons/ic_event_white_24dp.png"
             Material.foreground: colorlt
             Material.background: colordp
             text: "Événements"

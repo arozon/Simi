@@ -2,10 +2,15 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.3
-import "./Pages" as Pages
+import "../MainComponents" as Pages
+import "../Components" as Comps
 
 
-Rectangle {
+Item {
+    clip: true
+    property int headerHeight: 90
+
+
     width: parent == null ? 360:parent.width
     height: parent == null ? 640:parent.height
 
@@ -71,9 +76,16 @@ Rectangle {
 
     Pane {
         id: header
-        height: 90
-        width: parent.width + 10
-        x: - 5
+        height: headerHeight
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+            rightMargin: -1
+            leftMargin: -1
+            topMargin: -1
+        }
+
         Material.elevation: 4
         Material.background: colordp
         GridLayout {
@@ -81,7 +93,7 @@ Rectangle {
             anchors.fill: parent
             Image {
                 fillMode: Image.PreserveAspectFit
-                source: "Images/ucmu_100h.png"
+                source: "../Images/ucmu_100h.png"
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Layout.maximumWidth: 100
@@ -98,13 +110,13 @@ Rectangle {
                 font.bold: true
             }
 
-            ImageButton {
+            Comps.IconButton {
                 id: optionsbutton
                 Layout.fillHeight: true
                 Layout.maximumHeight: header.height / 2
                 Layout.maximumWidth: Layout.maximumHeight
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                source: "Icons/ic_settings_applications_white_24dp.png"
+                source: "../Icons/ic_settings_applications_white_24dp.png"
                 Material.background: colordp
                 Material.foreground: colorlt
                 Material.elevation: 6
@@ -158,9 +170,13 @@ Rectangle {
 
     StackView {
       id: sview
-      y: header.height + 3
-      width: parent.width
-      height: parent.height - 3 - header.height
+      anchors {
+          top: header.bottom
+          left: parent.left
+          bottom: parent.bottom
+          right: parent.right
+      }
+
       clip: true
       onBusyChanged: {
           if (!busy) {
@@ -173,27 +189,27 @@ Rectangle {
 
     Component {
         id: apicker
-        AccessTypePicker {}
+        Pages.AccessSelector {}
     }
 
     Component {
         id: spicker
-        Pages.MainPageStandard {}
+        Pages.CategorySelector{}
     }
 
     Component {
         id: ssettings
-        SettingsWindow {}
+        Pages.Settings {}
     }
 
     Component {
         id: servsettings
-        ServerSettingsView {}
+        Pages.ServerSettings {}
     }
 
     Component {
         id: peopleview
-        PeopleSettingsView {}
+        Pages.PeopleConfiguration {}
     }
 
 }

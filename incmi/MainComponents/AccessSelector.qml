@@ -2,11 +2,10 @@ import QtQuick 2.9
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
+import "../Prompts" as Dialogs
+import "../Components" as Comps
 
 Item {
-    width: parent.width
-    height: parent.height
-
     function ready() {
     }
     ColumnLayout {
@@ -18,7 +17,7 @@ Item {
         anchors.fill: parent
         spacing: 5
 
-        CButton {
+        Comps.ImageButton {
             text: qsTr("Intervenant")
             font.family: "Arial"
             Layout.fillHeight: true
@@ -26,20 +25,20 @@ Item {
             Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
             Material.foreground: colorlt
             Material.background: colordp
-            source: "Icons/ic_account_box_white_24dp.png"
+            source: "../Icons/ic_account_box_white_24dp.png"
             onClicked: {
                 pressedIntervenant();
             }
         }
 
-        CButton {
+        Comps.ImageButton {
             text: qsTr("Administrateur")
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
             Material.foreground: colorlt
             Material.background: colordp
-            source: "Icons/ic_supervisor_account_white_24dp.png"
+            source: "../Icons/ic_supervisor_account_white_24dp.png"
             onClicked: {
                 mview.enabled = false;
                 acodebox.show();
@@ -52,7 +51,7 @@ Item {
 
 
 
-    Prompt {
+    Dialogs.EmptyPrompt {
         id: acodebox
         x: parent.width / 10
         y: parent.height / 4

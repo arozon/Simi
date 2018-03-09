@@ -1,16 +1,13 @@
 <RCC>
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
-        <file>IntroForm.qml</file>
         <file>main.qml</file>
-        <file>MainForm.qml</file>
         <file>MedInvAdjustment.qml</file>
         <file>MedViewInventory.qml</file>
         <file>Prompt.qml</file>
         <file>DebugColorPicker.qml</file>
         <file>MedInvViewDelegate.qml</file>
         <file>MedInvViewHeader.qml</file>
-        <file>AdjViewDelegate.qml</file>
         <file>Images/ucmu_100h.png</file>
         <file>Images/ucmu_250h.png</file>
         <file>Images/ucmu_full.png</file>
@@ -565,40 +562,22 @@
         <file>Icons/ic_zoom_out_black_24dp.png</file>
         <file>Icons/ic_zoom_out_white_24dp.png</file>
         <file>CButton.qml</file>
-        <file>DocumentPrintViewer.qml</file>
         <file>DocumentViewer.qml</file>
-        <file>SettingsWindow.qml</file>
         <file>ImageButton.qml</file>
-        <file>AccessTypePicker.qml</file>
         <file>MemberListDelegate.qml</file>
         <file>MedViewInventoryList.qml</file>
         <file>ViewEditInventoryItem.qml</file>
         <file>ViewCreateInventoryItem.qml</file>
-        <file>InventoryPrint.qml</file>
-        <file>InventoryPrintDelegate.qml</file>
-        <file>InvAdjustmentPrint.qml</file>
-        <file>InvAdjustmentPrintDelegate.qml</file>
-        <file>ServerSettingsView.qml</file>
-        <file>PeopleListSettings.qml</file>
-        <file>PeopleListDelegate.qml</file>
-        <file>PeopleEditorSettings.qml</file>
         <file>IncRapportDocument.qml</file>
         <file>IncRapportFirstPage.qml</file>
         <file>IncRapportSecondPage.qml</file>
         <file>IncRapportThirdPage.qml</file>
-        <file>IncRapportDocumentPrint.qml</file>
-        <file>IncRapportDocumentPrintPeopleDelegate.qml</file>
-        <file>IncRapportDocumentPrintServiceDelegate.qml</file>
-        <file>PeopleSettingsView.qml</file>
         <file>CTextField.qml</file>
         <file>CLabeledTextField.qml</file>
-        <file>IncInvAdjustement.qml</file>
         <file>IncInvViewDelegate.qml</file>
         <file>IncInvViewHeader.qml</file>
         <file>IncViewInventory.qml</file>
         <file>IncViewInventoryList.qml</file>
-        <file>AdjViewHeader.qml</file>
-        <file>IncInvAdjPrint.qml</file>
         <file>DocumentMedical/EtatSigne.qml</file>
         <file>Components/SectionHeader.qml</file>
         <file>Components/CustomTextBox.qml</file>
@@ -631,8 +610,6 @@
         <file>Delegates/MedicalList.qml</file>
         <file>Pages/MedicalDocumentPage.qml</file>
         <file>Components/ConfirmationPageFooter.qml</file>
-        <file>Pages/MainPageStandard.qml</file>
-        <file>Pages/MainPageSettings.qml</file>
         <file>Pages/EventPage.qml</file>
         <file>EventComponents/PreviousEvent.qml</file>
         <file>EventComponents/EventBase.qml</file>
@@ -641,5 +618,28 @@
         <file>EventComponents/ConfigureEvent.qml</file>
         <file>EventComponents/MembersEvent.qml</file>
         <file>Delegates/EventMember.qml</file>
+        <file>PDFTemplates/IncendieRapport.qml</file>
+        <file>Delegates/IncendiePrintPeople.qml</file>
+        <file>Delegates/IncendiePrintService.qml</file>
+        <file>PDFTemplates/Inventory.qml</file>
+        <file>Delegates/InventoryPrint.qml</file>
+        <file>PDFTemplates/InventoryAdjustement.qml</file>
+        <file>Delegates/AdjustementPrint.qml</file>
+        <file>Pages/InvertoryAdjustmentBase.qml</file>
+        <file>Delegates/InventoryAdjustmentHeader.qml</file>
+        <file>Delegates/InventoryAdjustementDelegate.qml</file>
+        <file>Pages/IncendieInventoryAdjustement.qml</file>
+        <file>Pages/MedicalInventoryAdjustement.qml</file>
+        <file>PDFTemplates/MedicalRapport.qml</file>
+        <file>MainComponents/CategorySelector.qml</file>
+        <file>MainComponents/AccessSelector.qml</file>
+        <file>MainComponents/Settings.qml</file>
+        <file>MainComponents/ServerSettings.qml</file>
+        <file>MainComponents/PeopleConfiguration.qml</file>
+        <file>MainComponents/PeopleComponents/PeopleList.qml</file>
+        <file>Delegates/PeopleItem.qml</file>
+        <file>MainComponents/PeopleComponents/PeopleEditor.qml</file>
+        <file>Pages/MainPage.qml</file>
+        <file>Components/IconButton.qml</file>
     </qresource>
 </RCC>

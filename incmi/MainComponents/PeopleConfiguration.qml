@@ -2,6 +2,8 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtWebSockets 1.1
+import "./PeopleComponents" as PeopleComps
+import "../Components" as Comps
 
 Item {
     id: tpa
@@ -84,11 +86,14 @@ Item {
 
     Flickable {
         id: body
-        width: parent.width
-        height: parent.height - footer.height
-        contentWidth: parent.width
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
+            bottom: footer.top
+        }
+
         contentHeight: prect.height + prect.y + 2*pad
-        clip: true
         Pane {
             id: title3
             x: pad
@@ -113,7 +118,7 @@ Item {
             width: parent.width - 2*pad
             height: tpa.height - 4*pad - title3.height - footerheight > 400 ? tpa.height - 4*pad - title3.height - footerheight : 400
             y: title3.y + title3.height + pad
-            border.color: "lightgrey"
+            border.color: "grey"
             border.width: 1
             StackView {
                 anchors.fill: parent
@@ -130,39 +135,47 @@ Item {
 
         Component {
             id: plist
-            PeopleListSettings {}
+            PeopleComps.PeopleList {}
         }
 
         Component {
             id: peditor
-            PeopleEditorSettings {}
+            PeopleComps.PeopleEditor {}
         }
     }
 
-    Item {
+    Rectangle {
         id: footer
-        width: parent.width
-        y: body.height
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+            leftMargin: -1
+            rightMargin: -1
+            bottomMargin: -1
+
+        }
         height: footerheight
-        Rectangle {
-            anchors.fill: parent
-            anchors.margins: xd
-            border.width: 1
-            border.color: "grey"
-            CButton {
-                id: confb
-                text: qsTr("Retour");
-                width: implicitWidth + 20
-                x: parent.width - width - 10
-                y: parent.anchors.margins
-                height: parent.height - 2*parent.anchors.margins
-                source: "Icons/ic_play_for_work_white_24dp.png"
-                Material.foreground: colorlt
-                Material.background: colordp
-                onClicked: {
-                    retourSettings();
-                }
+        border.width: 1
+        border.color: "grey"
+        Comps.ImageButton {
+            text: "Retour"
+            width: implicitWidth + 20 > parent.width - 2 * pad ? parent.width - 2*pad : implicitWidth + 20
+            height: implicitHeight
+
+            anchors {
+                right: parent.right
+                rightMargin: pad
+                verticalCenter: parent.verticalCenter
+            }
+
+            source: "../Icons/ic_play_for_work_white_24dp.png"
+            Material.foreground: colorlt
+            Material.background: colordp
+            onClicked: {
+                retourSettings();
             }
         }
     }
+
 }

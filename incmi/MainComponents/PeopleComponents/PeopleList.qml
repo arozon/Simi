@@ -2,10 +2,10 @@ import QtQuick 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtWebSockets 1.1
+import "../../Components" as Comps
+import "../../Delegates" as Delegs
 
 Item {
-    height: parent.height
-    width: parent.width
     property int pad: 5
 
     function ready() {
@@ -30,9 +30,7 @@ Item {
         }
     }
 
-    BaseSocket {
-        port: sport
-        host: shost
+    Comps.BaseSocket {
         id: memberssocket
         onTextMessageReceived: {
             var obj = JSON.parse(message);
@@ -63,7 +61,7 @@ Item {
         width: parent.width - 2*pad
         height: parent.height - 3*pad - buttonfooter.height
         model: ListModel { id: mod}
-        delegate: PeopleListDelegate {}
+        delegate: Delegs.PeopleItem {}
     }
 
     Item {

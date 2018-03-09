@@ -2,6 +2,8 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtWebSockets 1.1
+import "../Components" as Comps
+import "../Delegates" as Delegs
 Item {
     height: 3300
     width: 2550
@@ -19,10 +21,8 @@ Item {
         gToImage();
     }
 
-    BaseSocket {
+    Comps.BaseSocket {
         id: dsocket
-        host: shost
-        port: sport
         onStatusChanged: {
             switch(status) {
             case WebSocket.Open:
@@ -179,7 +179,7 @@ Item {
                             anchors.fill: parent
                             anchors.margins: 15
                             model: ListModel {id: mod}
-                            delegate: InvAdjustmentPrintDelegate {}
+                            delegate: Delegs.AdjustementPrint {}
                             currentIndex: -1
                         }
                     }

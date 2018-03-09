@@ -3,10 +3,11 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 import QtWebSockets 1.1
+import "../Components" as Comps
 
 Item {
-    height: parent.height
-    width: parent.width
+    property int footerHeight: 50
+
     property int ffont: 12
     property int pad: 5
     property int textboxheight: 30
@@ -20,13 +21,10 @@ Item {
     }
 
 
-    BaseSocket {
-        port: sport
-        host: shost
+    Comps.BaseSocket {
         id: settingssocket
         onTextMessageReceived: {
             mod.clear();
-            console.log(message);
             var obj = JSON.parse(message);
             for (var i = 0; i < obj.items.length; i++){
                 var t = obj.items[i];
@@ -61,53 +59,50 @@ Item {
 
     Flickable {
         id: body
-        x: 0
-        y: 0
-        width: parent.width
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
+            bottom: footer.top
+        }
         contentWidth: parent.width
-        contentHeight: i2.height + i2.y + pad
-        height: parent.height - footer.height
-        Item {
-            id: i1
-            x: 0
-            y: 0
-            height:tbutton.height + tbutton.y + 5*pad
-            width: parent.width
+        contentHeight: lay.childrenRect.height
+        Column {
+            id: lay
+            spacing: 12
+            anchors {
+                topMargin: pad
+                leftMargin: pad
+                rightMargin: pad
+                fill: parent
+            }
+
             Rectangle {
-                anchors.fill: parent
-                anchors.margins: pad
+                height: tbutton.height + 2 * pad
+                width: parent.width
                 border.color: "grey"
                 border.width: 1
                 radius: 3
-                Item {
-                    anchors.fill: parent
-                    anchors.margins: pad
-                    Button {
-                        id: tbutton
-                        width: parent.width > implicitWidth + pad ? implicitWidth : parent.width - 2*pad
-                        x: parent.width - pad - width
-                        y: pad
-                        height: textboxheight + 15
-                        Material.background: colordp
-                        Material.foreground: colorlt
-                        text: "Configure Access"
-                        onClicked: {
-                            pressedConfigureAccess();
-                        }
+                Button {
+                    id: tbutton
+                    width: parent.width > implicitWidth + 2*pad ? implicitWidth : parent.width - 2*pad
+                    anchors {
+                        right: parent.right
+                        rightMargin: pad
+                        verticalCenter: parent.verticalCenter
+                    }
+                    height: implicitHeight
+                    Material.background: colordp
+                    Material.foreground: colorlt
+                    text: "Configure Access"
+                    onClicked: {
+                        pressedConfigureAccess();
                     }
                 }
             }
-        }
-
-        Item {
-            id: i2
-            x: 0
-            y: i1.height
-            height: pass.y + pass.height + 5*pad
-            width: parent.width
             Rectangle {
-                anchors.fill: parent
-                anchors.margins: pad
+                height: pass.y + pass.height + 5*pad
+                width: parent.width
                 color: "white"
                 clip: true
                 border.color: "grey"
@@ -141,18 +136,16 @@ Item {
                         }
                     }
                 }
-                CLabeledTextField {
+                Comps.LabeledTextInput {
                     id: pass
                     height: textboxheight
                     width: cbox.width
                     x: cbox.x
-                    spad: pad / 2
-                    textField.text: settings.password
+                    mTextInput.text: settings.password
                     y: cbox.height + pad + cbox.y
-                    label.text: "Password : "
-                    labelLength: label.implicitWidth
-                    textField.onTextChanged: {
-                        settings.password = textField.text;
+                    labelText: "Password : "
+                    onTextInputTextChanged:  {
+                        settings.password = textInputText;
                     }
                 }
             }
@@ -162,16 +155,20 @@ Item {
 
     Rectangle {
         id: footer
-        width: parent.width
-        y: body.height
-        height: 50
-        CButton {
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+
+        height: footerHeight
+        Comps.ImageButton {
             id: confb
             text: qsTr("Confirmer");
             width: implicitWidth + 3*pad + confc.implicitWidth > parent.width ? (parent.width - 3*pad) / 2 : implicitWidth
             x: parent.width - width - pad
             height: parent.height - 6
-            source: "Icons/ic_play_for_work_white_24dp.png"
+            source: "../Icons/ic_play_for_work_white_24dp.png"
             Material.foreground: colorlt
             Material.background: colordp
             onClicked: {
@@ -179,13 +176,13 @@ Item {
             }
         }
 
-        CButton {
+        Comps.ImageButton {
             id: confc
             text: qsTr("Conf. Serveur");
             width: implicitWidth + 3*pad + confb.implicitWidth > parent.width ? (parent.width - 3*pad) / 2 : implicitWidth
             x: confb.x - width - pad
             height: parent.height - 6
-            source: "Icons/ic_bug_report_white_24dp.png"
+            source: "../Icons/ic_bug_report_white_24dp.png"
             Material.foreground: colorlt
             Material.background: colordp
             visible: settings.isadmin

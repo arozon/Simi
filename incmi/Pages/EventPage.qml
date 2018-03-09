@@ -257,6 +257,9 @@ Item {
             Layout.maximumHeight: height
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+            onBack: {
+                winchange(login);
+            }
         }
     }
 

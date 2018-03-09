@@ -5,6 +5,7 @@ import Qt.labs.settings 1.0
 import QtQuick.Controls 2.2
 import QtWebSockets 1.1
 import "./Pages" as Pages
+import "./PDFTemplates" as PDFDocs
 
 
 Window {
@@ -104,8 +105,12 @@ Window {
     }
 
     function addMessage(message) {
-        var ms = message.slice(0, message.length - 1) + ',"account":["'+JSON.parse(settings.user).filename + '","'+settings.password+'"]}';
-        mess.push(ms);
+        //var ms = message.slice(0, message.length - 1) + ',"account":["'+JSON.parse(settings.user).filename + '","'+settings.password+'"]}';
+        var ms = JSON.parse(message);
+        ms.account = [];
+        ms.account[0] = JSON.parse(settings.user).filename
+        ms.account[1] = settings.password;
+        mess.push(JSON.stringify(ms));
         settings.messages = mess;
     }
 
@@ -120,7 +125,6 @@ Window {
     }
 
     Component.onCompleted: {
-        settings.messages = []
         doEvents();
     }
 
@@ -135,7 +139,7 @@ Window {
         id: windowloader
         height: parent.height
         width: parent.width
-        initialItem: meddocrs
+        initialItem: login
         onBusyChanged: {
             if (!busy) {
                 doEvents();
@@ -147,7 +151,7 @@ Window {
     // All different pages (Placed in components so we can dynamically load them and avoid using system ram on cheap devices lol...
     Component {
         id : login
-        MainForm { }
+        Pages.MainPage { }
     }
     Component {
         id: medimain
@@ -164,11 +168,11 @@ Window {
 
     Component {
         id: adjinv
-        MedInvAdjustment { }
+        Pages.MedicalInventoryAdjustement { }
     }
     Component {
         id: incadjinc
-        IncInvAdjustement { }
+        Pages.IncendieInventoryAdjustement { }
     }
 
     Component {
@@ -188,17 +192,17 @@ Window {
 
     Component {
         id:pcom
-        DocumentPrintViewer {}
+        PDFDocs.MedicalRapport {}
     }
 
     Component {
         id: pinvtot
-        InventoryPrint {}
+        PDFDocs.Inventory {}
     }
 
     Component {
         id: pinv
-        InvAdjustmentPrint {}
+        PDFDocs.InventoryAdjustement {}
     }
 
     Component {
@@ -213,7 +217,7 @@ Window {
 
     Component {
         id: pinc
-        IncRapportDocumentPrint {}
+        PDFDocs.IncendieRapport {}
     }
 
     function getDocImage(filename,typ) {
