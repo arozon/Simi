@@ -50,7 +50,6 @@ QString DataBase::addFile(const QString &dirname, const QString &data) {
     _io.cd(dirname);
     QString dt = data;
     QString name = GetRandomName() + _xfile;
-    if (!dt.contains("filename"), Qt::CaseSensitive) dt = dt.leftRef(dt.length() - 1) + "," + QChar('"') + "filename" + QChar('"') + ":" + QChar('"') + name + QChar('"') + "}";
     _io.writeFile(dt, name);
     _io.resetDirectory();
     return name;
