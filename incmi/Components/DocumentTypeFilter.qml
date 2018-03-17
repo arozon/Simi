@@ -17,6 +17,10 @@ Rectangle {
     CheckBox {
         id: docs
         height: implicitHeight
+        anchors {
+            verticalCenter: parent.verticalCenter
+        }
+
         width: docs.implicitWidth + inv.implicitWidth + 2*sidePadding > parent.width ? (parent.width - 2*sidePadding)/ 2 : implicitWidth
         x: parent.width - sidePadding - width
         checked: true
@@ -31,6 +35,9 @@ Rectangle {
         height: implicitHeight
         width: docs.implicitWidth + inv.implicitWidth + 2*sidePadding > parent.width ? (parent.width - 2*sidePadding)/ 2 : implicitWidth
         x: docs.x - width - 2*sidePadding
+        anchors {
+            verticalCenter: parent.verticalCenter
+        }
         checked: true
         text: secondCheckText
         onCheckedChanged: {

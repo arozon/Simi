@@ -1,9 +1,39 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
+import "../Components" as Comps
 
 
 Pane {
+    id: rectangle
+    property string peoples
+    property int itemPadding: 3
+
+    height: lay.height + 2 * padding
+    x: itemPadding
+    width: parent.width - 2 * itemPadding
+    Material.elevation: 4
+    padding: 15
+
+    Material.background: {
+        if (typeview.currentIndex === index) {
+            return colordp
+        }
+        else {
+            return "white"
+        }
+    }
+    Material.foreground: {
+        if (typeview.currentIndex === index) {
+            return colorlt
+        }
+        else {
+            return "black"
+        }
+    }
+
+
+
     Component.onCompleted: {
         for (var i = 0; i < people.count; i++){
             peoples += people.get(i).firstname + " " + people.get(i).lastname + "; ";
@@ -11,14 +41,10 @@ Pane {
         var da = Date.fromLocaleDateString(locale, date, 'dd:M:yyyy');
         ndate.text = da.getDate();
         mydate.text = da.toLocaleDateString(locale, 'MMMM yyyy');
+        height = Qt.binding(function () {return lay.height + 2*padding;});
+        typeview.forceLayout();
     }
-    height: 175
-    width: parent.width - 2*drectpad
-    x: drectpad
-    property int drectpad: 3
-    property string peoples
-    id: rectangle
-    Material.elevation: 4
+
     MouseArea {
         anchors.fill: parent
         onDoubleClicked: {
@@ -35,105 +61,149 @@ Pane {
             obj.type = type;
             ddclicked(obj);
         }
+        onClicked: {
+            typeview.currentIndex = index;
+        }
     }
 
 
     Label {
         id: ndate
-        x:0
-        y:0
-        height: parent.height
-        width: parent.width / 4
-        color: colort
+        anchors {
+            top: parent.top
+            left: parent.left
+            bottom: parent.bottom
+        }
+        padding: itemPadding
+
+        width: parent.width / 4 < implicitWidth ? implicitWidth : parent.width / 4
         text: "22"
-        font.pixelSize: 44
+        font.pixelSize: 60
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
     }
 
+    Column {
+        id: lay
+        spacing: itemPadding
+        height: childrenRect.height + spacing
+        anchors {
+            left: ndate.right
+            right: parent.right
+            top: parent.top
+        }
+
     Label {
         id: mydate
-        x: ndate.width
-        y: 0
-        width: parent.width - ndate.width
-        height: parent.height / 6
+        height: implicitHeight
+        padding: itemPadding
+        anchors {
+            right: parent.right
+            left: parent.left
+        }
+        wrapMode: Text.WordWrap
         topPadding: 5
         text: date
-        color: colort
         verticalAlignment: Text.AlignVCenter
         font.family: "Verdana"
         font.underline: false
         font.bold: true
         leftPadding: 10
-        font.pointSize: 14
+        font.pixelSize: 17
     }
 
     Label {
         id: dlab
-        x: ndate.width
-        y: mydate.height
-        color: colort
-        height: parent.height / 8
-        width: parent.width - ndate.width
-        elide: "ElideRight"
+        padding: itemPadding
+        height: implicitHeight
+        wrapMode: Text.WordWrap
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+
         text: "Heure : " + hour
-        font.pointSize: 9
+        font.pixelSize: 15
         leftPadding: 10
         verticalAlignment: Text.AlignVCenter
     }
 
     Label {
         id: llieu
-        x: ndate.width
-        y: dlab.height + dlab.y
-        color: colort
-        width: parent.width - ndate.width
-        elide: "ElideRight"
-        height: parent.height / 8
+        padding: itemPadding
+        wrapMode: Text.WordWrap
+        anchors {
+            right: parent.right
+            left: parent.left
+        }
+
+        height: implicitHeight
         text: "Lieu : " + lieu
-        font.pointSize: 9
+        font.pixelSize: 15
         leftPadding: 10
         verticalAlignment: Text.AlignVCenter
     }
 
     Rectangle {
         id: drect
-        x: ndate.width + drectpad
-        y: llieu.y + llieu.height + drectpad
-        width: parent.width - ndate.width - 2*drectpad
-        height: (parent.height - mydate.height - dlab.height - llieu.height) / 2 - 2*drectpad
+        height: drectl.height + drectl.anchors.margins*2
+        anchors {
+            margins: itemPadding
+            left: parent.left
+            right: parent.right
+        }
+
         border.color: "darkgrey"
         color: "whitesmoke"
         border.width: 1
         clip: true
         radius: 3
         Label {
-            anchors.fill: parent
+            id: drectl
+            anchors {
+                margins: 2*itemPadding
+                top: parent.top
+                left: parent.left
+                right: parent.right
+
+            }
+            Material.foreground: "black"
             text: "Details de l'evenements: " + details
-            font.pointSize: 9
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            elide: "ElideRight"
+            font.pixelSize: 15
+            wrapMode: Text.WordWrap
+            height: implicitHeight
             padding: 5
         }
     }
     Rectangle {
         id: prect
-        x: ndate.width + drectpad
-        y: drect.y + drect.height + drectpad
-        width: parent.width - ndate.width - 2*drectpad
-        height: (parent.height - mydate.height - dlab.height - llieu.height) / 2 - 2*drectpad
+        height: prect1.height + prect1.anchors.margins*2
+        anchors {
+            margins: itemPadding
+            left: parent.left
+            right: parent.right
+
+        }
         border.color: "darkgrey"
         color: "whitesmoke"
         border.width: 1
         radius: 3
         clip: true
         Label {
-            anchors.fill: parent
+            id: prect1
+            anchors {
+                margins: 2*itemPadding
+                left: parent.left
+                right: parent.right
+                top: parent.top
+            }
+            Material.foreground: "black"
+            height: implicitHeight
             text: "Membres: " + peoples
-            font.pointSize: 9
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            elide: "ElideRight"
+            font.pixelSize: 15
+            wrapMode: Text.WordWrap
             padding: 5
         }
+    }
     }
 }

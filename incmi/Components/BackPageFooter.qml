@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 
 Pane {
     property int buttonMargin: 10
-    height: 60
+    height: 66
     signal back()
     Material.background: "#0288D1"
     ImageButton {

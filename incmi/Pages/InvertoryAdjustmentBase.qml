@@ -20,6 +20,7 @@ Item {
         }
     }
     ListView {
+        clip: true
         enabled: mEnabled
         id: invListView
         anchors {
@@ -27,6 +28,7 @@ Item {
             left: parent.left
             right: parent.right
             bottom: pane.top
+            topMargin: useSafeAreaPadding ? safeAreaSize : 10
         }
         header: Delegs.InventoryAdjustmentHeader {}
         headerPositioning: ListView.PullBackHeader

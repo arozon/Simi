@@ -81,7 +81,7 @@ Item {
                         y: 0
                         height: parent.height
                         fillMode: Image.PreserveAspectFit
-                        source: "Images/ucmu_full.png"
+                        source: "../Images/ucmu_full.png"
                         width: parent.width / 5
                     }
 

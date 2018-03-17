@@ -28,6 +28,12 @@ InvertoryAdjustmentBase {
         sendSavedInformation();
 
     }
+    Component.onCompleted: {
+        if (Qt.platform.os === "ios"){
+            _backend.setIOSStyle("dark");
+        }
+    }
+
     Comps.BaseSocket {
         id: adjsocket
         onTextMessageReceived: {

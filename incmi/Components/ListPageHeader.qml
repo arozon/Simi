@@ -4,11 +4,12 @@ import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 
 Pane {
-    height: 110
+    height: useSafeAreaPadding ? safeAreaSize + 110 : 110
     width: parent.width + 10
     x: - 5
     Material.elevation: 3
     Material.background: colordp
+
 
     property string firstInputText: "Nouveau Dossier"
     property string secondInputText: "Inventaire"
@@ -16,6 +17,12 @@ Pane {
 
     signal firstSelected
     signal secondSelected
+
+    Component.onCompleted: {
+        if (useSafeAreaPadding) {
+            topPadding = safeAreaSize;
+        }
+    }
 
 
 
@@ -45,7 +52,7 @@ Pane {
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                Layout.maximumHeight: 50
+                Layout.maximumHeight: implicitHeight
                 source: "../Icons/ic_line_style_white_24dp.png"
                 Material.foreground: colorlt
                 Material.background: colordp
@@ -59,7 +66,7 @@ Pane {
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                Layout.maximumHeight: 50
+                Layout.maximumHeight: implicitHeight
                 source: "../Icons/ic_line_style_white_24dp.png"
                 Material.foreground: colorlt
                 Material.background: colordp

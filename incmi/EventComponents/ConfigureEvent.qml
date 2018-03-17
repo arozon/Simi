@@ -6,6 +6,7 @@ import "../Components" as Comps
 
 
 Item {
+    property int sidePadding: ld.contentMargins !== 0 ? ld.contentMargins : pad
     property int textboxheight: 35
     property int pad: 5
     property bool isready: false;
@@ -89,10 +90,16 @@ Item {
         return data.toString().length < 2 ? "0" + data : data;
     }
     Item {
-        y: pad
-        x: pad
-        width: parent.width - 2*pad
-        height: parent.height - 3*pad - footerheight
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
+            bottom: footer.bottom
+            margins: pad
+            rightMargin: sidePadding
+            leftMargin: sidePadding
+        }
+
         Label {
             id: dlabel
             x: pad
@@ -100,7 +107,6 @@ Item {
             elide: "ElideRight"
             width: parent.width - 340 + 3*pad > 0 ? implicitWidth : parent.width - 3*pad - 170
             text: "Event date (dd/mm/yyyy): "
-            renderType: Text.QtRendering
             fontSizeMode: Text.HorizontalFit
             verticalAlignment: Text.AlignVCenter
             height: textboxheight
@@ -327,15 +333,20 @@ Item {
 
     Item {
         id: footer
-        x: pad
-        y: parent.height - footer.height - pad
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+            rightMargin: pad
+            leftMargin: pad
+        }
+
         height: footerheight
-        width: parent.width - 2*pad
         Button {
             id: bsave
             y: parent.height / 5
             height: parent.height * 3/ 5
-            width: rem.implicitWidth + bsave.implicitWidth + canc.implicitWidth + 5*pad > parent.width ? (parent.width - 5*pad) / 2 : implicitWidth
+            width: rem.implicitWidth + bsave.implicitWidth + canc.implicitWidth + 5*pad > parent.width ? (parent.width - 5*pad) / 3 : implicitWidth
             x: parent.width - pad - width
             Material.background: colorp
             Material.foreground: colorlt
@@ -349,7 +360,7 @@ Item {
             id: rem
             y: parent.height / 5
             height: parent.height * 3/ 5
-            width: rem.implicitWidth + bsave.implicitWidth + canc.implicitWidth + 5*pad > parent.width ? (parent.width - 5*pad) / 2 : implicitWidth
+            width: rem.implicitWidth + bsave.implicitWidth + canc.implicitWidth + 5*pad > parent.width ? (parent.width - 5*pad) / 3 : implicitWidth
             x: bsave.x - pad - width
             Material.background: colorp
             Material.foreground: colorlt
@@ -363,7 +374,7 @@ Item {
             id: canc
             y: parent.height / 5
             height: parent.height * 3/ 5
-            width: rem.implicitWidth + bsave.implicitWidth + canc.implicitWidth + 5*pad > parent.width ? (parent.width - 5*pad) / 2 : implicitWidth
+            width: rem.implicitWidth + bsave.implicitWidth + canc.implicitWidth + 5*pad > parent.width ? (parent.width - 5*pad) / 3 : implicitWidth
             x: rem.x - pad - width
             Material.background: colorp
             Material.foreground: colorlt

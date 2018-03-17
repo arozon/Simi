@@ -3,6 +3,7 @@ TARGET = Simi
 CONFIG += c++11
 
 SOURCES += main.cpp
+SOURCES += backend.cpp
 
 RESOURCES += qml.qrc
 
@@ -30,8 +31,15 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES +=
 
-HEADERS +=
+HEADERS += \
+    iosviewcontroller.h \
+    backend.h
 
 win32 {
     RC_FILE = simi.rc
 }
+ios {
+OBJECTIVE_SOURCES += iosviewcontroller.mm
+OBJECTIVE_SOURCES +=
+}
+

@@ -8,11 +8,12 @@ import "../Components" as Comps
 
 Item {
     clip: true
-    property int headerHeight: 90
-
-
-    width: parent == null ? 360:parent.width
-    height: parent == null ? 640:parent.height
+    property int headerHeight: useSafeAreaPadding ? safeAreaSize + 90 : 90
+    Component.onCompleted: {
+        if (useSafeAreaPadding) {
+            header.topPadding = safeAreaSize;
+        }
+    }
 
     function doneServerSettings() {
         sview.push(ssettings);

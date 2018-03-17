@@ -41,20 +41,20 @@ Pane {
     Component.onCompleted: {
         switch (type) {
         case "docs":
-            blabel.destroy();
-            ilabel.destroy();
+            blabel.visible = false;
+            ilabel.visible = false;
             break;
         case "inv":
-            l1.destroy();
-            lb.destroy();
-            l2.destroy();
-            l3.destroy();
-            l4.destroy();
-            bl.destroy();
-            bl2.destroy();
-            bl3.destroy();
-            bl4.destroy();
-            bl5.destroy();
+            l1.visible = false;
+            lb.visible = false;
+            l2.visible = false;
+            l3.visible = false;
+            l4.visible = false;
+            bl.visible = false;
+            bl2.visible = false;
+            bl3.visible = false;
+            bl4.visible = false;
+            bl5.visible = false;
             break;
         }
     }

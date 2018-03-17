@@ -3,6 +3,7 @@
 #include <QHostInfo>
 #include <QQmlContext>
 #include <QDir>
+#include <backend.h>
 
 int main(int argc, char *argv[])
 {
@@ -15,7 +16,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     //engine.rootContext()->setContextProperty("shost","192.168.0.108");
     //engine.rootContext()->setContextProperty("sport",443);
-
+    qmlRegisterType<Backend>("iostls",1,0,"Backend");
     engine.rootContext()->setContextProperty("shost",info.toString());
     engine.rootContext()->setContextProperty("sport",30000);
     engine.rootContext()->setContextProperty("simageurl",

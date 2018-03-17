@@ -3,7 +3,6 @@ import QtQuick.Window 2.0
 import QtQuick.Controls.Material 2.1
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-import QtQml 2.2
 import "../DocumentMedical" as MedPages
 import "../Prompts" as Dialogs
 import "../Components" as Comps
@@ -120,6 +119,7 @@ Item {
     property int currentpage: 0
     property int lacdheight: 70
     property int widthspliter: 800
+    property bool contentEnabled: true
     width: parent == null ? 360:parent.width
     height: parent == null ? 640:parent.height
     Material.accent: colora
@@ -230,109 +230,107 @@ Item {
         addMessage(JSON.stringify(obj));
         sendSavedInformation();
     }
-    Item {
-        id: mview
-        anchors.fill: parent
-        SwipeView {
-            id: view
+    SwipeView {
+        id: view
+        enabled: contentEnabled
+        clip: true
+        anchors {
+            topMargin: useSafeAreaPadding ? safeAreaSize : 10
+            top: parent.top
+            left: parent.left
+            right: parent.right
+            bottom: indicator.top
+        }
+
+        currentIndex: currentpage
+        onCurrentIndexChanged: {
+            currentItem.forceActiveFocus();
+        }
+
+        MedPages.InformationEvenement {
+            id: firstPage
             clip: true
-            anchors {
-                topMargin: 10
-                top: parent.top
-                left: parent.left
-                right: parent.right
-                bottom: indicator.top
-            }
-
-            currentIndex: currentpage
-            onCurrentIndexChanged: {
-                currentItem.forceActiveFocus();
-            }
-
-            MedPages.InformationEvenement {
-                id: firstPage
-                clip: true
-                sidePadding: xd
-            }
-
-            MedPages.InformationPatient {
-                id: secondPage
-                clip: true
-                sidePadding: xd
-            }
-
-            MedPages.NatureCas {
-                id: thirdPage
-                clip: true
-                sidePadding: xd
-            }
-
-            MedPages.EvalPrimaire {
-                id: fourthPage
-                clip: true
-                sidePadding: xd
-            }
-
-            MedPages.ConditionPatient {
-                id: fifthPage
-                clip: true
-                sidePadding: xd
-            }
-
-            MedPages.OPQRST {
-                id: sixthPage
-                clip: true
-                sidePadding: xd
-            }
-            MedPages.DescriptionsCas {
-                id: seventhPage
-                clip: true
-                sidePadding: xd
-            }
-
-            MedPages.EtatSigne {
-                id: eightPage
-                clip: true
-                sidePadding: xd
-            }
-        }
-        PageIndicator {
-            id: indicator
-            width: implicitWidth
-            height: implicitHeight
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                bottom: footer.top
-            }
-            count: view.count
-            currentIndex: view.currentIndex
+            sidePadding: xd
         }
 
-        Comps.ConfirmationPageFooter {
-            id: footer
-            anchors {
-                bottom: parent.bottom
-                left: parent.left
-                right: parent.right
-            }
-
-            onConfirm: {
-                mview.enabled = false;
-                promptconfirmsave.show();
-            }
-            onCancel: {
-                mview.enabled = false;
-                promptconfirmleave.show();
-            }
-
+        MedPages.InformationPatient {
+            id: secondPage
+            clip: true
+            sidePadding: xd
         }
 
+        MedPages.NatureCas {
+            id: thirdPage
+            clip: true
+            sidePadding: xd
+        }
+
+        MedPages.EvalPrimaire {
+            id: fourthPage
+            clip: true
+            sidePadding: xd
+        }
+
+        MedPages.ConditionPatient {
+            id: fifthPage
+            clip: true
+            sidePadding: xd
+        }
+
+        MedPages.OPQRST {
+            id: sixthPage
+            clip: true
+            sidePadding: xd
+        }
+        MedPages.DescriptionsCas {
+            id: seventhPage
+            clip: true
+            sidePadding: xd
+        }
+
+        MedPages.EtatSigne {
+            id: eightPage
+            clip: true
+            sidePadding: xd
+        }
     }
+    PageIndicator {
+        id: indicator
+        enabled: contentEnabled
+        width: implicitWidth
+        height: implicitHeight
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: footer.top
+        }
+        count: view.count
+        currentIndex: view.currentIndex
+    }
+
+    Comps.ConfirmationPageFooter {
+        id: footer
+        enabled: contentEnabled
+        anchors {
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+        }
+
+        onConfirm: {
+            contentEnabled = false;
+            promptconfirmsave.show();
+        }
+        onCancel: {
+            contentEnabled = false;
+            promptconfirmleave.show();
+        }
+    }
+
 
     Dialogs.ConfirmPrompt {
         id: promptconfirmsave
         onCancelDialog: {
-            mview.enabled = true;
+            contentEnabled = true;
             promptconfirmsave.hide();
         }
 
@@ -344,7 +342,7 @@ Item {
     Dialogs.CancelPrompt {
         id: promptconfirmleave
         onCancelDialog: {
-            mview.enabled = true;
+            contentEnabled = true;
             promptconfirmleave.hide();
         }
 

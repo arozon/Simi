@@ -8,6 +8,7 @@ import "../Delegates" as Delegs
 Item {
     property int pad: 5
     property int footerheight: 70
+    property int sidePadding: ld.contentMargins !== 0 ? ld.contentMargins : pad
 
     function ready() {
         memberssocket.active = true;
@@ -40,25 +41,39 @@ Item {
         clip: true
         interactive: true
         spacing: 1
-        y: pad
-        x: pad
-        width: parent.width - 2*pad
-        height: parent.height - 3*pad - footer.height
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+            bottom: footer.top
+            margins: pad
+            rightMargin: sidePadding
+            leftMargin: sidePadding
+        }
+
         model: ListModel { id: mod}
         delegate: Delegs.EventMember {}
     }
 
     Item {
         id: footer
-        x: pad
-        y: parent.height - footer.height - pad
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+            margins: pad
+        }
+
         height: footerheight
-        width: parent.width - 2*pad
         Button {
-            y: parent.height / 5
-            height: parent.height * 3/ 5
-            width: parent.width / 2 - 2*pad
-            x: parent.width / 2- pad
+            height: implicitHeight
+            width: implicitWidth > parent.width - 2 * pad ? parent.width - 2 * pad : implicitWidth
+            anchors {
+                right: parent.right
+                margins: pad
+                verticalCenter: parent.verticalCenter
+            }
+
             text: "Confirm"
             Material.foreground: colorlt
             Material.background: colorp

@@ -8,8 +8,6 @@ import "../Components" as Comps
 import "../EventComponents" as EventPages
 
 Item {
-    width: parent == null ? 360:parent.width
-    height: parent == null ? 640:parent.height
     property int pad: 5
     property var currentpeople: []
     property bool editing: false;
@@ -165,6 +163,15 @@ Item {
         if (!settings.isadmin) {
             tabBar.removeItem(2);
         }
+        var os = Qt.platform.os
+
+        if (os === "linux" || os === "osx" || os === "windows") {
+            header.Layout.maximumWidth = Qt.binding(function () {return tabBar.implicitWidth * 2;});
+            ld.contentMargins = Qt.binding(function () {
+                var ms = (width- header.Layout.maximumWidth) / 2;
+                return width * 3 / 4 < header.Layout.maximumWidth ? ms > 0 ? ms + 5 : 5 : width / 8;
+            });
+        }
     }
 
     Connections {
@@ -176,76 +183,73 @@ Item {
 
     ColumnLayout {
         id: columnLayout
-        spacing: 0
-        anchors.fill: parent
-        Item {
+        spacing: 5
+        anchors {
+            fill: parent
+            topMargin: useSafeAreaPadding ? safeAreaSize : 0
+        }
+        Pane {
+            id: header
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.rightMargin: -1
+            Layout.leftMargin: -1
             Layout.minimumHeight: tabBar.implicitHeight + 16
             Layout.maximumHeight: tabBar.implicitHeight + 16
             Layout.fillHeight: true
             Layout.fillWidth: true
-            Pane {
+            Material.elevation: 5
+            Material.foreground: colorlt
+            Material.background: colordp
+            TabBar {
+                id: tabBar
                 anchors.fill: parent
-                anchors.margins: 2
-                Material.elevation: 5
+                font.capitalization: Font.SmallCaps
+                font.bold: true
                 Material.foreground: colorlt
                 Material.background: colordp
-                TabBar {
-                    id: tabBar
-                    width: parent.width
-                    height: implicitHeight
-                    y: ( parent.height - implicitHeight ) / 2
-                    font.capitalization: Font.SmallCaps
-                    font.bold: true
-                    Material.foreground: colorlt
-                    Material.background: colordp
-                    Material.accent: colorlt
+                Material.accent: colorlt
 
-                    TabButton {
-                        text: qsTr("Precedent")
-                    }
-                    TabButton {
-                        text: qsTr("Future")
-                    }
-                    TabButton {
-                        text: qsTr("Configure")
-                    }
+                TabButton {
+                    id: b1
+                    text: qsTr("Precedent")
+                }
+                TabButton {
+                    id: b2
+                    text: qsTr("Future")
+                }
+                TabButton {
+                    id: b3
+                    text: qsTr("Configure")
+                }
 
-                    onCurrentIndexChanged: {
-                        switch(tabBar.currentIndex){
-                        case 0:
-                            reset()
-                            changeStackPage(prev);
-                            break;
-                        case 1:
-                            reset()
-                            changeStackPage(upc);
-                            break;
-                        case 2:
-                            footer.enabled = false;
-                            changeStackPage(cev);
-                            break;
-                        }
+                onCurrentIndexChanged: {
+                    switch(tabBar.currentIndex){
+                    case 0:
+                        reset()
+                        changeStackPage(prev);
+                        break;
+                    case 1:
+                        reset()
+                        changeStackPage(upc);
+                        break;
+                    case 2:
+                        footer.enabled = false;
+                        changeStackPage(cev);
+                        break;
                     }
                 }
             }
         }
-        Item {
+        StackView {
+            property int contentMargins: 0
             Layout.fillHeight: true
             Layout.fillWidth: true
-            StackView {
-                anchors {
-                    fill: parent
-                    topMargin: 3
-                    bottomMargin: 3
-                }
-
-                id: ld
-                clip: true;
-                initialItem: prev
-                onBusyChanged: {
-                    if (!busy) {
-                        ld.currentItem.ready();
-                    }
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            id: ld
+            initialItem: prev
+            onBusyChanged: {
+                if (!busy) {
+                    ld.currentItem.ready();
                 }
             }
         }

@@ -11,6 +11,7 @@ import "../Prompts" as Dialogs
 Item {
     property int pad: 5
     property int checkiheight: 50
+    property bool contentEnabled: true
     property string bmodel
     property int viewSpacing: 4
     property int viewMargins: 5
@@ -94,7 +95,7 @@ Item {
     ListView {
         id: listView
         spacing: viewSpacing
-
+        enabled: contentEnabled
         anchors {
             top: header.bottom
             left: parent.left
@@ -110,8 +111,9 @@ Item {
 
     Comps.ListPageHeader {
         id: header
+        enabled: contentEnabled
         onFirstSelected: {
-            mview.enabled = false;
+            contentEnabled = false;
             newdprompt.show();
         }
         onSecondSelected: {
@@ -120,6 +122,7 @@ Item {
     }
     Comps.DocumentTypeFilter {
         id: filterRect
+        enabled: contentEnabled
         anchors {
             left: parent.left
             right: parent.right
@@ -137,6 +140,7 @@ Item {
     }
     Comps.BackPageFooter {
         id: footer
+        enabled: contentEnabled
         anchors {
             left: parent.left
             right: parent.right
@@ -195,7 +199,7 @@ Item {
                 Material.foreground: colorlt
                 Material.background: colorp
                 onClicked: {
-                    mview.enabled = true;
+                    contentEnabled = true;
                     newdprompt.hide();
                 }
             }

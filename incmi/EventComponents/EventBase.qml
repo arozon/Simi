@@ -9,6 +9,7 @@ Item {
     Material.accent: colora
     property alias viewModel: mod
     property int animationDuration: 300
+    property int sidePadding: ld.contentMargins !== 0 ? ld.contentMargins : 5
     property bool showMedical: true
     property bool showIncendie: true
     property string defstr: ""
@@ -51,11 +52,13 @@ Item {
             left: parent.left
             right: parent.right
             bottom: filterRect.top
+            leftMargin: sidePadding
+            rightMargin: sidePadding
         }
         model: ListModel {id: mod}
         delegate: Delegs.EventItem {}
         add: Transition { NumberAnimation { properties: "x"; from: width; duration: animationDuration; easing.type: Easing.OutQuad }}
-        spacing: 3
+        spacing: 6
     }
     Comps.DocumentTypeFilter {
         id: filterRect

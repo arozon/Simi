@@ -4,16 +4,21 @@ import QtQuick.Controls.Material 2.2
 import Qt.labs.settings 1.0
 import QtQuick.Controls 2.2
 import QtWebSockets 1.1
+import iostls 1.0
 import "./Pages" as Pages
 import "./PDFTemplates" as PDFDocs
+import "./Components" as Comps
 
 
-Window {
+ApplicationWindow {
     id: window
-    height: 640
-    width: 360
-    visible: true
     title: qsTr("Simi")
+
+    visibility: Window.Maximized;
+    flags: Qt.MaximizeUsingFullscreenGeometryHint;
+
+    property bool useSafeAreaPadding: false
+    property int safeAreaSize: 20
 
     property color colorb: "#BDBDBD"
     property color colorst: "#757575"
@@ -57,6 +62,11 @@ Window {
             //Qt.quit();
         }
     }
+
+    Backend {
+        id: _backend
+    }
+
 
 
 
@@ -104,6 +114,22 @@ Window {
         }
     }
 
+    function setPCIntialPostion() {
+        var wheight = Screen.height;
+        var wwidth = Screen.width;
+        console.log("This is the height " + wheight.toString() + "; This is the width " + wwidth.toString() );
+        window.width = wwidth * 3 / 4;
+        window.height = wheight * 3 / 4;
+        window.x = wwidth / 8;
+        window.y = wheight / 8;
+        window.visibility = Window.Windowed;
+    }
+
+    function setMobile() {
+        visibility = Window.Maximized;
+        flags = Qt.MaximizeUsingFullscreenGeometryHint;
+    }
+
     function addMessage(message) {
         //var ms = message.slice(0, message.length - 1) + ',"account":["'+JSON.parse(settings.user).filename + '","'+settings.password+'"]}';
         var ms = JSON.parse(message);
@@ -125,6 +151,19 @@ Window {
     }
 
     Component.onCompleted: {
+        var os = Qt.platform.os;
+        if (os === "ios" && height === 812) {
+            //Is iphone x, make sur to pad properly
+            useSafeAreaPadding = true;
+            safeAreaSize = 40;
+        }else if (os === "ios") {
+            useSafeAreaPadding = true;
+        }else if (os === "windows" || os === "osx" || os === "unix") {
+            setPCIntialPostion()
+        }else if (os === "ios" || os === "android"){
+            setMobile();
+        }
+
         doEvents();
     }
 
@@ -159,11 +198,11 @@ Window {
     }
     Component {
         id: medinventory
-        MedViewInventory { }
+        Pages.MedViewInventory { }
     }
     Component {
         id: incinventory
-        IncViewInventory { }
+        Pages.IncViewInventory { }
     }
 
     Component {
@@ -182,7 +221,7 @@ Window {
 
     Component {
         id:viewer
-        DocumentViewer {}
+        Pages.DocumentViewer {}
     }
 
     Component {
@@ -212,14 +251,14 @@ Window {
 
     Component {
         id: incrapdoc
-        IncRapportDocument {}
+        Pages.IncendieRapportPage {}
     }
 
     Component {
         id: pinc
         PDFDocs.IncendieRapport {}
     }
-
+    //Component asks for a document image, passing the filename.
     function getDocImage(filename,typ) {
         currentfilename = filename;
         currenttype = typ;
@@ -262,10 +301,8 @@ Window {
 
 
 
-    BaseSocket {
+    Comps.BaseSocket {
         id: msocket
-        port: sport
-        host: shost
         onStatusChanged: {
             switch(status) {
             case WebSocket.Open:
