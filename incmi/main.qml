@@ -14,8 +14,8 @@ ApplicationWindow {
     id: window
     title: qsTr("Simi")
 
-    visibility: Window.Maximized;
-    flags: Qt.MaximizeUsingFullscreenGeometryHint;
+    //visibility: Window.Maximized;
+    //flags: Qt.MaximizeUsingFullscreenGeometryHint;
 
     property bool useSafeAreaPadding: false
     property int safeAreaSize: 20

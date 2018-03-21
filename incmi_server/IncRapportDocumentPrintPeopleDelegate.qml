@@ -4,10 +4,10 @@ import QtQuick.Controls.Material 2.0
 
 Item {
     width: parent.width
-    height: 70
+    height: 80
     property string sepcolor: "grey"
     property int pad: 5
-    property int fontsize: 20
+    property int fontsize: 36
 
     Item {
         anchors.fill: parent
@@ -31,7 +31,7 @@ Item {
                     text: "Nom: "
                     leftPadding: 2
                     verticalAlignment: Text.AlignVCenter
-                    font.pointSize: fontsize
+                    font.pixelSize: fontsize
                 }
                 Label {
                     x: lb.x + pad + lb.width
@@ -39,7 +39,7 @@ Item {
                     width: parent.width - lb.width - 3*pad
                     text: firstname + " " + lastname
                     verticalAlignment: Text.AlignVCenter
-                    font.pointSize: fontsize
+                    font.pixelSize: fontsize
                 }
             }
             Item {
@@ -56,7 +56,7 @@ Item {
                     text: "Matricule: "
                     verticalAlignment: Text.AlignVCenter
                     leftPadding: 2
-                    font.pointSize: fontsize
+                    font.pixelSize: fontsize
                 }
                 Label {
                     x: lb.x + pad + lb.width
@@ -64,7 +64,7 @@ Item {
                     width: parent.width - lb.width - 3*pad
                     text: matricule
                     verticalAlignment: Text.AlignVCenter
-                    font.pointSize: fontsize
+                    font.pixelSize: fontsize
                 }
             }
         }

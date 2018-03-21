@@ -4,10 +4,10 @@ import QtQuick.Controls.Material 2.0
 
 Item {
     width: parent.width
-    height: 130
+    height: 152
     property string sepcolor: "grey"
     property int pad: 8
-    property int fontsize: 20
+    property int fontsize: 36
 
     Component.onCompleted: {
         var val = parseInt(difference);
@@ -42,7 +42,7 @@ Item {
                     text: "Objet d'inventaires: "
                     leftPadding: 2
                     verticalAlignment: Text.AlignVCenter
-                    font.pointSize: fontsize
+                    font.pixelSize: fontsize
                 }
                 Label {
                     x: lb.x + pad + lb.width
@@ -50,7 +50,7 @@ Item {
                     width: parent.width - lb.width - 3*pad
                     text: name
                     verticalAlignment: Text.AlignVCenter
-                    font.pointSize: fontsize
+                    font.pixelSize: fontsize
                 }
             }
             Item {
@@ -67,7 +67,7 @@ Item {
                     text: "Compte actuelle: "
                     verticalAlignment: Text.AlignVCenter
                     leftPadding: 2
-                    font.pointSize: fontsize
+                    font.pixelSize: fontsize
                 }
                 Label {
                     x: lb.x + pad + lb.width
@@ -75,7 +75,7 @@ Item {
                     width: parent.width - lb.width - 3*pad
                     text: count
                     verticalAlignment: Text.AlignVCenter
-                    font.pointSize: fontsize
+                    font.pixelSize: fontsize
                 }
             }
             Item {
@@ -92,7 +92,7 @@ Item {
                     text: "Changements apporter au compte: "
                     leftPadding: 2
                     verticalAlignment: Text.AlignVCenter
-                    font.pointSize: fontsize
+                    font.pixelSize: fontsize
                 }
                 Label {
                     id: ldif
@@ -101,7 +101,7 @@ Item {
                     width: parent.width - lb.width - 3*pad
                     text: difference
                     verticalAlignment: Text.AlignVCenter
-                    font.pointSize: fontsize
+                    font.pixelSize: fontsize
                 }
             }
             Item {
@@ -117,7 +117,7 @@ Item {
                     x: pad
                     text: "Compte recommender : "
                     verticalAlignment: Text.AlignVCenter
-                    font.pointSize: fontsize
+                    font.pixelSize: fontsize
                 }
                 Label {
                     x: lb.x + pad + lb.width
@@ -125,7 +125,7 @@ Item {
                     width: parent.width - lb.width - 3*pad
                     text: rcount
                     verticalAlignment: Text.AlignVCenter
-                    font.pointSize: fontsize
+                    font.pixelSize: fontsize
                 }
             }
 

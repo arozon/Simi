@@ -1,4 +1,5 @@
 QT += qml quick
+QT += printsupport
 
 CONFIG += console
 

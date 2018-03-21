@@ -82,6 +82,7 @@ Item {
         }
         onTextMessageReceived: {
             var obj = JSON.parse(message);
+            console.log(message);
             bmodel = message;
             for (var i = 0; i < obj.items.length; i++) {
                 mod.append(obj.items[i]);

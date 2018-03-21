@@ -5,6 +5,8 @@
 #include <database.h>
 #include <settings.h>
 #include <email.h>
+#include <fileio.h>
+
 
 
 class BackEnd : public QObject
@@ -34,6 +36,7 @@ public:
     Q_INVOKABLE void removeEventItem(const QString &dirname, const QString& filename, const QString &item);
     Q_INVOKABLE void removePeople(const QString &dirname, const QString &data);
     Q_INVOKABLE void editDocument(const QString &dirname, const QString &data);
+    Q_INVOKABLE void sendDocumentByMail(const QString &filenamenoext, const bool &iscreated);
     Q_INVOKABLE void serverActiveChanged(const bool &cond);
 
 private:
@@ -44,6 +47,7 @@ private:
             emit consoleLinesChanged();
         }
     }
+
     int consoleLines() const { return _consoleLines; }
 
     //Console Text
@@ -80,11 +84,13 @@ private:
     DataBase _db;
     Settings _st;
     Email _em;
+    FileIO _io;
     QTimer *_tm;
     //Private methods
     QString getDateString(const QString &date);
     QString getRandomTag(const QString &dirname, const QString &filename);
     QStringList getEmailsFromObj(const QJsonObject &obj);
+    bool printToPDF(const QString &filename);
     void backupDataFolders();
     void sendEmailEventEdited(const QJsonObject &save, const QJsonObject &from);
     void sendEmailEventRemoved(const QString &objdeleted);

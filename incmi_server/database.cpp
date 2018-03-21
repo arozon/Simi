@@ -26,6 +26,19 @@ void DataBase::makeJsonListFiles(const QHash<QString, QString> &fileswithdir) {
     }
 }
 
+void DataBase::removeTempFiles(const QStringList &filetypes)
+{
+    QStringList names = _io.getFileNames();
+    foreach (const QString &name, names) {
+        foreach (const QString &tp, filetypes) {
+            if (name.contains(tp)) {
+                _io.removeFile(name);
+                break;
+            }
+        }
+    }
+}
+
 
 bool DataBase::modifyFile(const QString &dirname, QString filename, const QString &data) {
     if (!filename.contains(".", Qt::CaseInsensitive) && !filename.isEmpty()) filename += _xfile;

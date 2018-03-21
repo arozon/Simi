@@ -65,7 +65,7 @@ Item {
                 height: textboxheight
                 width: parent.width
                 labelText: "Name "
-                KeyNavigation.tab: tcount.mIntputText
+                KeyNavigation.tab: tcount.mTextInput
                 onTextInputTextChanged: {
                     checkSave();
                 }
@@ -76,7 +76,7 @@ Item {
                 height: textboxheight
                 width: parent.width
                 labelText: "Count "
-                KeyNavigation.tab: trcount.mInputText
+                KeyNavigation.tab: trcount.mTextInput
                 onTextInputTextChanged: {
                     checkSave();
                 }
@@ -86,7 +86,7 @@ Item {
                 height: textboxheight
                 width: parent.width
                 labelText: "Recommended Count "
-                KeyNavigation.tab: tname.mInputText
+                KeyNavigation.tab: tname.mTextInput
                 onTextInputTextChanged: {
                     checkSave();
                 }
