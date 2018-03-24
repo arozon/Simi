@@ -28,6 +28,17 @@ Pane {
     Material.elevation: 8
     state: "hidden"
 
+    Component.onCompleted: {
+        var os = Qt.platform.os;
+        if (os === "windows" || os === "linux" || os === "osx") {
+            // Set windows design;
+
+            x = Qt.binding(function () {
+                return parent.width / 5;
+            });
+        }
+    }
+
     function checkstate(){
         if (state == "hidden"){
             visible = false;

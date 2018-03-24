@@ -20,6 +20,14 @@ Item {
             break;
         }
         */
+        var os = Qt.platform.os;
+        if (os === "ios" || os === "android") {
+            //Is mobile
+            scroll.destroy();
+        }else if (os === "windows" || os === "linux" || os === "osx") {
+            flick.destroy();
+        }
+
     }
 
 
@@ -151,9 +159,57 @@ Item {
                                 flick.contentWidth = m.width
                                 flick.contentHeight = m.height
                             }
+                            onClicked: {
+                                console.log("I am flick");
+                                mouse.accepted = false;
+                            }
                         }
                     }
                 }
+            }
+        }
+        ScrollView {
+            id: scroll
+            anchors.fill: parent
+            contentWidth: m.width
+            contentHeight: im2.sourceSize.height * (m.width / im2.sourceSize.width)
+                Rectangle {
+                    id: rr
+                    width:  scroll.contentWidth
+                    height: scroll.contentHeight
+                    x: width < scroll.width ? (scroll.width - width) / 2 : 0
+                    y: height < scroll.height ? (scroll.height - height) / 2 : 0
+                    color: "white"
+                    Image {
+                        id: im2
+                        anchors.fill: parent
+                        fillMode: Image.PreserveAspectFit
+                        source: imgurl
+                        MouseArea {
+                            anchors.fill: parent
+                            onDoubleClicked: {
+                                scroll.contentWidth = m.width
+                                scroll.contentHeight = im2.sourceSize.height * (m.width / im2.sourceSize.width);
+                            }
+                            onClicked: {
+                                console.log("I am scroll");
+                                mouse.accepted = false;
+                            }
+                            onWheel: {
+                                var dif = wheel.angleDelta.y
+                                var sc = scroll.contentWidth + dif;
+                                var sb = scroll.contentHeight + dif;
+
+                                if (sb > 0 && sc > 0) {
+                                    scroll.contentWidth += dif;
+                                    scroll.contentHeight += dif * (im2.sourceSize.height / im2.sourceSize.width);
+                                    console.log(scroll.contentHeight);
+                                }else {
+                                    wheel.accepted = false;
+                                }
+                            }
+                        }
+                    }
             }
         }
     }

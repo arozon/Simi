@@ -47,10 +47,13 @@ Item {
         contentWidth: width
         Column {
             id: lay
+            spacing: 8
             anchors {
                 top: parent.top
                 right: parent.right
                 left: parent.left
+                leftMargin: sidePadding
+                rightMargin: sidePadding
             }
 
 

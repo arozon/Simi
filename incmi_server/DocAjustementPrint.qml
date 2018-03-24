@@ -176,7 +176,6 @@ Item {
     }
 
     Rectangle {
-        visible: vis
         anchors.fill: parent
         color: "white"
 
@@ -2159,6 +2158,7 @@ Item {
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 50
             anchors.top: pagecontent1.bottom
+            visible: vis
             Item {
                 id: svr1
 

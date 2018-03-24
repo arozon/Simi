@@ -14,11 +14,11 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("Simi_Client");
     QHostAddress info = QHostInfo::fromName("sgci.ddns.net").addresses()[0];
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("shost","192.168.0.108");
-    engine.rootContext()->setContextProperty("sport",443);
+    //engine.rootContext()->setContextProperty("shost","192.168.0.108");
+    //engine.rootContext()->setContextProperty("sport",443);
     qmlRegisterType<Backend>("iostls",1,0,"Backend");
-    //engine.rootContext()->setContextProperty("shost",info.toString());
-    //engine.rootContext()->setContextProperty("sport",30000);
+    engine.rootContext()->setContextProperty("shost",info.toString());
+    engine.rootContext()->setContextProperty("sport",30000);
     engine.rootContext()->setContextProperty("simageurl",
                       QDir::current().absolutePath());
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
