@@ -8,7 +8,7 @@ import "../Components" as Comps
 
 InvertoryAdjustmentBase {
     function saveData(){
-        var tsend = JSON.parse('{"messageindex":"30","matricule":"","type":"inv","name":"","date":"","filename":"","items":[]}');
+        var tsend = JSON.parse('{"messageindex":"30","matricule":"","type":"inv","name":"","date":"","items":[]}');
         for (var i = 0; i < viewModel.count; i++) {
             var item = viewModel.get(i);
             if (parseInt(item.difference) != 0) {

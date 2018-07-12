@@ -9,6 +9,7 @@ import "../Delegates" as Delegs
 import "../Prompts" as Dialogs
 
 Item {
+    id: pcontrol
     property int pad: 5
     property int checkiheight: 50
     property bool contentEnabled: true
@@ -82,6 +83,7 @@ Item {
         }
         onTextMessageReceived: {
             var obj = JSON.parse(message);
+            console.log(message);
             bmodel = message;
             for (var i = 0; i < obj.items.length; i++) {
                 mod.append(obj.items[i]);
@@ -90,7 +92,25 @@ Item {
         }
     }
 
+    Component.onCompleted: {
+        var os = Qt.platform.os;
+        if (os === "windows" || os === "linux" || os === "osx") {
+            // Set windows design;
 
+            listView.anchors.leftMargin = Qt.binding(function () {
+                return pcontrol.width / 10;
+            });
+            listView.anchors.rightMargin = Qt.binding(function () {
+                return pcontrol.width / 10;
+            });
+            listView.anchors.topMargin = Qt.binding(function () {
+                return 15;
+            });
+            newdprompt.x = Qt.binding(function () {
+               return pcontrol.width / 5;
+            });
+        }
+    }
 
     ListView {
         id: listView

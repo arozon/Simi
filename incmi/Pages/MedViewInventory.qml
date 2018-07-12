@@ -5,6 +5,7 @@ import "../InventoryComponents" as InvComps
 import "../Components" as Comps
 
 Item {
+    id: pcontrol
     property string currentInvItem
 
     function itemDoubleClicked(obj) {
@@ -73,6 +74,23 @@ Item {
             ldview.currentItem.ready();
         }
     }
+    Component.onCompleted: {
+        var os = Qt.platform.os;
+        if (os === "windows" || os === "linux" || os === "osx") {
+            // Set windows design;
+
+            ldview.anchors.leftMargin = Qt.binding(function () {
+                return pcontrol.width / 10;
+            });
+            ldview.anchors.rightMargin = Qt.binding(function () {
+                return pcontrol.width / 10;
+            });
+            ldview.anchors.topMargin = Qt.binding(function () {
+                return 15;
+            });
+        }
+    }
+
     StackView {
         id: ldview
         clip: true;

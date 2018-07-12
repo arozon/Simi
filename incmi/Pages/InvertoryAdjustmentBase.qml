@@ -6,6 +6,7 @@ import "../Delegates" as Delegs
 import "../Prompts" as Dialogs
 
 Item {
+    id: pcontrol
     property bool mEnabled: true
     property alias viewModel: mod
 
@@ -19,6 +20,23 @@ Item {
             ready();
         }
     }
+    Component.onCompleted: {
+        var os = Qt.platform.os;
+        if (os === "windows" || os === "linux" || os === "osx") {
+            // Set windows design;
+
+            invListView.anchors.leftMargin = Qt.binding(function () {
+                return pcontrol.width / 10;
+            });
+            invListView.anchors.rightMargin = Qt.binding(function () {
+                return pcontrol.width / 10;
+            });
+            invListView.anchors.topMargin = Qt.binding(function () {
+                return 15;
+            });
+        }
+    }
+
     ListView {
         clip: true
         enabled: mEnabled

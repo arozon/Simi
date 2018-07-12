@@ -47,10 +47,13 @@ Item {
         contentWidth: width
         Column {
             id: lay
+            spacing: 8
             anchors {
                 top: parent.top
                 right: parent.right
                 left: parent.left
+                leftMargin: sidePadding
+                rightMargin: sidePadding
             }
 
 
@@ -65,7 +68,7 @@ Item {
                 height: textboxheight
                 width: parent.width
                 labelText: "Name "
-                KeyNavigation.tab: tcount.mIntputText
+                KeyNavigation.tab: tcount.mTextInput
                 onTextInputTextChanged: {
                     checkSave();
                 }
@@ -76,7 +79,7 @@ Item {
                 height: textboxheight
                 width: parent.width
                 labelText: "Count "
-                KeyNavigation.tab: trcount.mInputText
+                KeyNavigation.tab: trcount.mTextInput
                 onTextInputTextChanged: {
                     checkSave();
                 }
@@ -86,7 +89,7 @@ Item {
                 height: textboxheight
                 width: parent.width
                 labelText: "Recommended Count "
-                KeyNavigation.tab: tname.mInputText
+                KeyNavigation.tab: tname.mTextInput
                 onTextInputTextChanged: {
                     checkSave();
                 }

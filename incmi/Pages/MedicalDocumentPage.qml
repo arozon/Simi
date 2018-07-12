@@ -139,12 +139,15 @@ Item {
     }
     function save() {
         var obj = {}
+        obj.messageindex = 3;
         obj.matricule = getMatricule();
         obj.nature = naturedoc;
         obj.name = getFullName();
+        obj.type = "docs";
         obj.dateint = dateint;
         obj.tarriver = tarriver;
         obj.tdepart = tdepart;
+        obj.tappele = tappele;
         obj.nomoper = nomoper;
         obj.endroit = endroit;
         obj.adresse = adresse;
@@ -173,6 +176,7 @@ Item {
         obj.nobstr = nobstr;
         obj.ntrauma = ntrauma;
         obj.nautre = nautre;
+        obj.ndescription = ndescription;
         if (naturedoc == "2") {
             obj.epreaction = epreaction;
             obj.epvoiesr = epvoiesr;

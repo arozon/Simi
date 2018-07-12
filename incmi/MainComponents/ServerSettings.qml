@@ -87,6 +87,7 @@ Item {
 
         Column {
             id: lay
+            spacing: 8
             anchors {
                 top: parent.top
                 left: parent.left
@@ -111,7 +112,7 @@ Item {
             Comps.LabeledTextInput {
                 id: epassword
                 height: textboxheight
-                labelText: "Server Email Account"
+                labelText: "Email Password"
                 KeyNavigation.tab: host
             }
 

@@ -8,11 +8,27 @@ import "../Components" as Comps
 
 Item {
     clip: true
+    id: pcontrol
     property int headerHeight: useSafeAreaPadding ? safeAreaSize + 90 : 90
     Component.onCompleted: {
         if (useSafeAreaPadding) {
             header.topPadding = safeAreaSize;
         }
+        var os = Qt.platform.os;
+        if (os === "windows" || os === "linux" || os === "osx") {
+            // Set windows design;
+
+            sview.anchors.leftMargin = Qt.binding(function () {
+                return pcontrol.width / 10;
+            });
+            sview.anchors.rightMargin = Qt.binding(function () {
+                return pcontrol.width / 10;
+            });
+            sview.anchors.topMargin = Qt.binding(function () {
+                return 15;
+            });
+        }
+
     }
 
     function doneServerSettings() {

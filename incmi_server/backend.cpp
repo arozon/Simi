@@ -6,7 +6,9 @@
 #include "qdebug.h"
 #include "qmath.h"
 #include "qtimer.h"
-
+#include "QtPrintSupport/qprinter.h"
+#include "QPainter"
+#include "qmath.h"
 
 
 BackEnd::BackEnd(QObject *parent) : QObject(parent)
@@ -345,20 +347,20 @@ QString BackEnd::getSettings() {
 
 void BackEnd::sendEmailEventReminder() {
     if (_st.readProperty("scremind").toBool()) {
-       QJsonArray arr = QJsonDocument::fromJson(_db.getFileData(eventfolder,eventfilename).toUtf8()).object()["items"].toArray();
-       QDate date = QDateTime::currentDateTime().date();
-       for (int i = 0; i < arr.size(); i++) {
-           QJsonObject obj = arr[i].toObject();
-           QStringList db = obj["date"].toString().split(":");
-           if (db[0].toInt() == date.day() + 1 && db[1].toInt() == date.month() && db[1].toInt() == date.year()) {
-               QStringList ppl = getEmailsFromObj(obj);
-               QString pass = _st.readProperty("sempassword").toString();
-               QString acc = _st.readProperty("semaccount").toString();
-               if (pass != "" && acc != "") {
-                   _em.sendEmail(acc,pass,ppl,"Simi: Rappel d'evenements | " + getDateString(obj["date"].toString()),"Ceci est un rappel que vous avez un evenements qui est ceduler a: " + obj["hour"].toString() + "\n A: " + obj["lieu"].toString() + "\n" + obj["details"].toString());
-               }
-           }
-       }
+        QJsonArray arr = QJsonDocument::fromJson(_db.getFileData(eventfolder,eventfilename).toUtf8()).object()["items"].toArray();
+        QDate date = QDateTime::currentDateTime().date();
+        for (int i = 0; i < arr.size(); i++) {
+            QJsonObject obj = arr[i].toObject();
+            QStringList db = obj["date"].toString().split(":");
+            if (db[0].toInt() == date.day() + 1 && db[1].toInt() == date.month() && db[1].toInt() == date.year()) {
+                QStringList ppl = getEmailsFromObj(obj);
+                QString pass = _st.readProperty("sempassword").toString();
+                QString acc = _st.readProperty("semaccount").toString();
+                if (pass != "" && acc != "") {
+                    _em.sendEmail(acc,pass,ppl,"Simi: Rappel d'evenements | " + getDateString(obj["date"].toString()),"Ceci est un rappel que vous avez un evenements qui est ceduler a: " + obj["hour"].toString() + "\n A: " + obj["lieu"].toString() + "\n" + obj["details"].toString());
+                }
+            }
+        }
     }
 }
 
@@ -389,6 +391,92 @@ void BackEnd::serverActiveChanged(const bool &cond) {
     }else {
         _tm->stop();
     }
+}
+
+bool BackEnd::printToPDF(const QString &filename)
+{
+    qDebug() << "Printing to pdf";
+    QImage img;
+    if (filename.isEmpty()) return false;
+    if (!img.load(filename + ".png")) return false;
+    int imheight = img.height();
+    QPrinter printer(QPrinter::HighResolution);
+    printer.setPaperSize(QPrinter::A4);
+    printer.setFullPage(true);
+    printer.setOutputFileName(filename + ".pdf");
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    int imWidth = img.width();
+    int precompPageHeight = 3300;
+    int pageWidth = printer.width();
+    int pageHeight = printer.height();
+    qDebug() << "This is the image height" << imheight;
+    qDebug() << "These are the page sizes that give rectangles (W,H) : " << pageWidth << "," << pageHeight;
+    if (imheight > precompPageHeight) {
+        qreal pages = imheight / precompPageHeight;
+        bool paint = true;
+        int cc = 0;
+        QPainter pint(&printer);
+        while (paint) {
+            qreal tf;
+            if (pages >= 1) {
+                tf = 1;
+            }else {
+                tf = pages;
+            }
+            QImage in = img.copy(0, cc*precompPageHeight, imWidth, tf*precompPageHeight);
+            pint.drawImage(QRect(0,0,pageWidth,pageHeight),in);
+
+            qDebug() << "Printed a page";
+            pages = pages - 1;
+            if (pages <= 0) {
+                paint = false;
+                continue;
+            }
+            if (!printer.newPage()) {
+                paint = false;
+            }
+            cc++;
+        }
+        pint.end();
+    }else {
+        QRect trect(0, 0, pageWidth, pageHeight);
+        QPainter paint(&printer);
+        paint.drawImage(trect,img);
+        paint.end();
+    }
+    return true;
+}
+
+
+void BackEnd::sendDocumentByMail(const QString &filenamenoext, const bool &iscreated)
+{
+    if (!printToPDF(filenamenoext)) {
+        qDebug() << "Document failed to print";
+        return;
+    }
+    QJsonDocument doc = QJsonDocument::fromJson(createPeopleList(peoplefolder,QString("{" + QString('"') +  "items" + QString('"') + ":[]}")).toUtf8());
+    QJsonArray ppl = doc.object()["items"].toArray();
+    QStringList emails;
+    for (int i = 0; i < ppl.size(); i++) {
+        qDebug() << ppl.at(i);
+        QJsonObject obj = ppl.at(i).toObject();
+        if (obj.contains("isadmin") && obj.contains("email")) {
+            qDebug() << obj["isadmin"].toString();
+            if (obj["isadmin"].toBool()) {
+                emails << obj["email"].toString();
+            }
+        }
+    }
+    qDebug() << "These are the emails \n" << emails;
+    QString pass = _st.readProperty("sempassword").toString();
+    QString acc = _st.readProperty("semaccount").toString();
+    if (iscreated) {
+        _em.sendEmailWithAttachment(acc,pass,emails,"Simi: Commit Added", "The following document has been added to the database",QStringList() << QString(_io.getApplicationPath() + "/" + filenamenoext + ".pdf"));
+    }else {
+        _em.sendEmailWithAttachment(acc,pass,emails,"Simi: Document", "The following document has been requested to be emailed",QStringList() << QString(_io.getApplicationPath() + "/" + filenamenoext + ".pdf"));
+    }
+    _db.removeTempFiles(QStringList() << ".pdf" << ".png");
+    qDebug() << "Done sending emails";
 }
 
 void BackEnd::timerTickSlot() {

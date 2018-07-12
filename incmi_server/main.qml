@@ -50,11 +50,6 @@ ApplicationWindow {
     property string fname
     property bool iscreated: true
 
-    Component.onDestruction: {
-        //Cleanup
-        removeTempImage();
-    }
-
     BackEnd {
         id: _backend
         onConsoleTextChanged: {
@@ -102,6 +97,17 @@ ApplicationWindow {
     }
 
     Component {
+        id: ptest
+        Flickable {
+            contentHeight: tt.height
+            contentWidth: tt.width
+            DocAjustementPrint {
+                id: tt
+            }
+        }
+    }
+
+    Component {
         id: pincprint
         IncRapportDocumentPrint {}
     }
@@ -132,49 +138,50 @@ ApplicationWindow {
     }
 
 
-    function sendAdminsCommits(type,cname) {
+    function sendAdminsCommits(doctype,type,cname) {
+        console.log(doctype);
+        console.log(type);
+        console.log(cname);
         if (!pppload.active){
             if (_backend.getSetting("scadmincommit")) {
-                switch (type) {
-                case "docs":
-                    pppload.sourceComponent = pdocajust;
-                    break;
-                case "inv":
-                    pppload.sourceComponent = pinvadjust;
-                    break;
-                case "inc":
-                    pppload.sourceComponent = pincprint;
-                    break;
+                var hasroot = false;
+                if (type === "inc") {
+                    switch (doctype) {
+                    case "inc":
+                        pppload.sourceComponent = pincprint;
+                        shasroot = true;
+                        break;
+                    case "inv":
+                        pppload.sourceComponent = pinvadjinc;
+                        hasroot = true;
+                        break;
+                    }
+                }else if (type === "med") {
+                    switch (doctype) {
+                    case "docs":
+                        pppload.sourceComponent = pdocajust;
+                        hasroot = true;
+                        break;
+                    case "inv":
+                        pppload.sourceComponent = pinvadjust;
+                        hasroot = true;
+                        break;
+                    }
                 }
-                fname = cname;
-                pppload.active = true;
+
+                if (hasroot) {
+                    fname = cname;
+                    pppload.active = true;
+                }
             }
         }
     }
 
     function imRendered(obj) {
         obj.saveToFile(fname.split(".")[0] + ".png");
-        file.printToPDF(fname.split(".")[0]);
-        var ppl = JSON.parse(_backend.createPeopleList(peoplefolder,peoplelistbase));
-        var pp = []
-        for (var i = 0; i < ppl.items.length; i++) {
-            var pers = ppl.items[i];
-            if (pers.isadmin && pers.email != ""){
-                pp.push(pers.email);
-            }
-        }
-        var acc = _backend.getSetting("semaccount");
-        var pass = _backend.getSetting("sempassword");
-        if (acc != "" && pass != "") {
-            if (!iscreated) {
-                iscreated = true;
-                file.sendEmailWithAttachment(acc, pass, pp, "Simi: Document", "The following document has been requested to be emailed",file.getApplicationPath() + "/" + fname.split(".")[0] + ".pdf");
-            }else {
-                file.sendEmailWithAttachment(acc, pass, pp, "Simi: Commit Added", "The following document has been added to the database",file.getApplicationPath() + "/" + fname.split(".")[0] + ".pdf");
-            }
-        }
+        console.log("Sent message to c++");
+        _backend.sendDocumentByMail(fname.split(".")[0],iscreated);
         pppload.active = false;
-        removeTempImage()
     }
 
     Loader {
@@ -261,11 +268,11 @@ ApplicationWindow {
             case 3:
                 //Add document
                 delete jsonobj["messageindex"];
-                sendAdminsCommits(jsonobj.type,_backend.createDocument(docsfolder,JSON.stringify(jsonobj)));
+                sendAdminsCommits(jsonobj.type,"med",_backend.createDocument(docsfolder,JSON.stringify(jsonobj)));
                 break;
             case 4:
                 delete jsonobj["messageindex"];
-                sendAdminsCommits(jsonobj.type,_backend.appendInventory(invfolder,invtotal,JSON.stringify(jsonobj),docsfolder));
+                sendAdminsCommits(jsonobj.type,"med",_backend.appendInventory(invfolder,invtotal,JSON.stringify(jsonobj),docsfolder));
                 break;
             case 5:
                 socket.sendTextMessage(_backend.createPeopleList(peoplefolder,peoplelistbase));
@@ -324,7 +331,7 @@ ApplicationWindow {
                 break;
             case 20:
                 delete jsonobj["messageindex"];
-                sendAdminsCommits("inc",_backend.createDocument(incdocfolder,JSON.stringify(jsonobj)));
+                sendAdminsCommits("inc","inc",_backend.createDocument(incdocfolder,JSON.stringify(jsonobj)));
                 break;
             case 21:
                 socket.sendTextMessage(_backend.createChangesList(incdocfolder,incdocumentchangesbase,incchangeslistbase));
@@ -358,7 +365,7 @@ ApplicationWindow {
                 break;
             case 30:
                 delete jsonobj["messageindex"];
-                sendAdminsCommits(jsonobj.type,_backend.appendInventory(invincfolder,invinctotal,JSON.stringify(jsonobj),incdocfolder));
+                sendAdminsCommits(jsonobj.type,"inc",_backend.appendInventory(invincfolder,invinctotal,JSON.stringify(jsonobj),incdocfolder));
                 break;
             case 31:
                 sendDocumentEmailClientInvInc();

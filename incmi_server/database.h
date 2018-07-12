@@ -30,6 +30,7 @@ public:
     bool backupFoldersWithDate(QStringList &dirnames, const QString &backupfolder);
     void makeDirectories(const QStringList &dirnames);
     void makeJsonListFiles(const QHash<QString, QString> &fileswithdir);
+    void removeTempFiles(const QStringList &filetypes);
 
 signals:
     void xfileChanged();
